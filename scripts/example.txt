@@ -1,0 +1,157 @@
+"Centrum Europejskie" : 
+"Centrum Kształcenia Nauczycieli Języków Obcych i Edukacji Europejskiej UW" : 
+"Instytut Ameryk i Europy" : 
+"Wydział Archeologii" : 
+"Wydział Artes Liberales" : 
+"Wydział Biologii" : 
+"Wydział Chemii" : 
+"Wydział Dziennikarstwa, Informacji i Bibliologii" : 
+"Wydział Filozofii" : 
+"Wydział Fizyki" : 
+"Wydział Geografii i Studiów Regionalnych" : 
+"Wydział Geologii" : 
+"Wydział Historii" : 
+"Wydział Lingwistyki Stosowanej" : 
+"Wydział Matematyki, Informatyki i Mechaniki" : 
+"Wydział Nauk Ekonomicznych" : 
+"Wydział Nauk o Kulturze i Sztuce" : 
+"Wydział Nauk Politycznych i Studiów Międzynarodowych" : 
+"Wydział Neofilologii" : 
+"Wydział Orientalistyczny" : 
+"Wydział Pedagogiczny" : 
+"Wydział Polonistyki" : 
+"Wydział Prawa i Administracji" : 
+"Wydział Psychologii" : 
+"Wydział Socjologii" : 
+"Wydział Stosowanych Nauk Społecznych i Resocjalizacji" : 
+"Wydział Zarządzania" : 
+"Centrum Kształcenia Nauczycieli Języków Obcych i Edukacji Europejskiej UW" : 
+"Instytut Ameryk i Europy" : 
+"Interdyscyplinarne Centrum Modelowania Matematycznego i Komputerowego" : 
+"Wydział Archeologii" : 
+"Wydział Artes Liberales" : 
+"Wydział Biologii" : 
+"Wydział Chemii" : 
+"Wydział Dziennikarstwa, Informacji i Bibliologii" : 
+"Wydział Filozofii" : 
+"Wydział Fizyki" : 
+"Wydział Geografii i Studiów Regionalnych" : 
+"Wydział Geologii" : 
+"Wydział Historii" : 
+"Wydział Lingwistyki Stosowanej" : 
+"Wydział Matematyki, Informatyki i Mechaniki" : 
+"Wydział Nauk Ekonomicznych" : 
+"Wydział Nauk o Kulturze i Sztuce" : 
+"Wydział Nauk Politycznych i Studiów Międzynarodowych" : 
+"Wydział Neofilologii" : 
+"Wydział Orientalistyczny" : 
+"Wydział Pedagogiczny" : 
+"Wydział Polonistyki" : 
+"Wydział Prawa i Administracji" : 
+"Wydział Psychologii" : 
+"Wydział Socjologii" : 
+"Wydział Stosowanych Nauk Społecznych i Resocjalizacji" : 
+"Wydział Zarządzania" : 
+"Wydział Medyczny" : 
+"Wydział Pedagogiczny" : 
+"Wydział Prawa i Administracji" : 
+"Wydział Psychologii" : 
+"Inna" : 
+" której ze szkół doktorskich studiuje Pan(i) obecnie?" : 
+"Centrum Innowacji i Badań Edukacyjnych" : 
+"Międzynarodowe Centrum Zarządzania" : 
+"Ośrodek Badań nad Migracjami" : 
+"Wydział Archeologii" : 
+"Wydział Biologii" : 
+"Wydział Chemii" : 
+"Wydział Dziennikarstwa, Informacji i Bibliologii" : 
+"Wydział Filozofii" : 
+"Wydział Historii" : 
+"Wydział Lingwistyki Stosowanej" : 
+"Wydział Nauk Ekonomicznych" : 
+"Wydział Nauk o Kulturze i Sztuce" : 
+"Wydział Pedagogiczny" : 
+"Wydział Polonistyki" : 
+"Wydział Prawa i Administracji" : 
+"Wydział Psychologii" : 
+"Wydział Zarządzania" : 
+"Inna" : 
+"Centrum Archeologii Śródziemnomorskiej im. K. Michałowskiego" : 
+"Centrum Europejskie" : 
+"Centrum Kształcenia Nauczycieli Języków Obcych i Edukacji Europejskiej UW" : 
+"Centrum Nauczania Języków Obcych" : 
+"Centrum Nowych Technologii UW CeNT" : 
+"Instytut Ameryk i Europy" : 
+"Ośrodek Badań nad Migracjami" : 
+"Studium Wychowania Fizycznego i Sportu" : 
+"Wydział Archeologii" : 
+"Wydział Artes Liberales" : 
+"Wydział Biologii" : 
+"Wydział Chemii" : 
+"Wydział Dziennikarstwa, Informacji i Bibliologii" : 
+"Wydział Filozofii" : 
+"Wydział Fizyki" : 
+"Wydział Geografii i Studiów Regionalnych" : 
+"Wydział Geologii" : 
+"Wydział Historii" : 
+"Wydział Lingwistyki Stosowanej" : 
+"Wydział Matematyki, Informatyki i Mechaniki" : 
+"Wydział Medyczny" : 
+"Wydział Nauk Ekonomicznych" : 
+"Wydział Nauk o Kulturze i Sztuce" : 
+"Wydział Nauk Politycznych i Studiów Międzynarodowych" : 
+"Wydział Neofilologii" : 
+"Wydział Orientalistyczny" : 
+"Wydział Pedagogiczny" : 
+"Wydział Polonistyki" : 
+"Wydział Prawa i Administracji" : 
+"Wydział Psychologii" : 
+"Wydział Socjologii" : 
+"Wydział Stosowanych Nauk Społecznych i Resocjalizacji" : 
+"Wydział Zarządzania" : 
+"Inna" : 
+"Biblioteka Uniwersytecka w Warszawie (BUW)" : 
+"Centrum Kompetencji Cyfrowych Uniwersytetu Warszawskiego" : 
+"hemicznych UW" : 
+"Centrum Nowych Technologii UW CeNT" : 
+"Centrum Transferu Technologii i Wiedzy" : 
+"Centrum Współpracy i Dialogu Uniwersytetu Warszawskiego" : 
+"Instytut Ameryk i Europy" : 
+"Interdyscyplinarne Centrum Modelowania Matematycznego i Komputerowego" : 
+"ogistyczne" : 
+"Biuro Spraw Socjalnych" : 
+"inna jednostka" : 
+"Pion Prorektora ds. Badań" : 
+"Pion Prorektora ds. Rozwoju" : 
+"Pion Prorektora ds. Studentów i Jakości Kształcenia" : 
+"Pion Prorektora ds. Współpracy i Spraw Pracowniczych" : 
+"Pion Rektora" : 
+"Środowiskowe Laboratorium Ciężkich Jonów w Uniwersytecie Warszawskim" : 
+"Uniwersytet Otwarty Uniwersytetu Warszawskiego" : 
+"Wydawnictwa UW" : 
+"Wydział Archeologii" : 
+"Wydział Artes Liberales" : 
+"Wydział Biologii" : 
+"Wydział Chemii" : 
+"Wydział Dziennikarstwa, Informacji i Bibliologii" : 
+"Wydział Filozofii" : 
+"Wydział Fizyki" : 
+"Wydział Geografii i Studiów Regionalnych" : 
+"Wydział Geologii" : 
+"Wydział Historii" : 
+"Wydział Lingwistyki Stosowanej" : 
+"Wydział Matematyki, Informatyki i Mechaniki" : 
+"Wydział Medyczny" : 
+"Wydział Nauk Ekonomicznych" : 
+"Wydział Nauk o Kulturze i Sztuce" : 
+"Wydział Nauk Politycznych i Studiów Międzynarodowych" : 
+"Wydział Neofilologii" : 
+"Wydział Orientalistyczny" : 
+"Wydział Pedagogiczny" : 
+"Wydział Polonistyki" : 
+"Wydział Prawa i Administracji" : 
+"Wydział Psychologii" : 
+"Wydział Socjologii" : 
+"Wydział Stosowanych Nauk Społecznych i Resocjalizacji" : 
+"Wydział Zarządzania" : 
+"Inna" : 
