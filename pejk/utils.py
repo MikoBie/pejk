@@ -20,7 +20,7 @@ def rename_column(key: str, mapping: dict) -> str:
     return mapping[key].split(" - ")[-1]
 
 
-def prepare_data_barplots(
+def prepare_data_columnswise(
     df: pd.DataFrame, f: str, t: str, mapping: dict, weight: bool = False
 ) -> pd.DataFrame:
     """Prepares data frame to compute frequencies.
@@ -46,7 +46,7 @@ def prepare_data_barplots(
         sum of the given columns
     """
     if weight:
-        df = df.loc[:, f:t].mulitply(df.loc[:, "WAGA"], axis=0)
+        df = df.loc[:, f:t].multiply(df.loc[:, "WAGA"], axis=0)
     df = df.loc[:, f:t]
 
     df = (
@@ -56,6 +56,49 @@ def prepare_data_barplots(
         .rename(columns={"index": "group", 0: "count"})
         .sort_values("count")
     )
+    df["group"] = df["group"].map(lambda x: JEDNOSTKI.get(x.strip(), x.strip()))
+    df["group"] = df["group"].apply(lambda x: "\n".join(wrap(x, 30)))
+
+    return df
+
+
+def prepare_data_rowise(
+    df: pd.DataFrame,
+    key: str,
+    mapping: dict,
+    weight: bool = False,
+) -> pd.DataFrame:
+    """Prepares data frame to compute frequencies.
+
+    Parameters
+    ----------
+    df
+        data frame witht the results of PEJK study on emission and travels.
+
+    key
+        name of the column for which the frequencies will be calculated
+
+    mapping
+        dict that maps names of the variables to labels
+
+    weight
+        whether the data should be weighted, by default equals to False
+
+    Returns
+    -------
+        frequencies for categories in given column
+    """
+    if weight:
+        df = df.loc[:, key].multiply(df.loc[:, "WAGA"], axis=0)
+    df = df.loc[:, key]
+
+    df = (
+        df.value_counts()
+        .reset_index()
+        .rename(columns={key: "group"})
+        .sort_values("count")
+    )
+    df["group"] = df["group"].map(mapping[key])
     df["group"] = df["group"].map(lambda x: JEDNOSTKI.get(x.strip(), x.strip()))
     df["group"] = df["group"].apply(lambda x: "\n".join(wrap(x, 30)))
 
