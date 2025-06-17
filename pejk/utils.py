@@ -3,6 +3,21 @@ from textwrap import wrap
 from pejk.config import JEDNOSTKI
 
 
+def strip_string(x):
+    """Returna strip string or the object.
+
+    Parameters
+    ----------
+    x
+        an python object
+
+    Returns
+    -------
+        returns a stirpped string or a python object
+    """
+    return x.strip() if isinstance(x, str) else x
+
+
 def rename_column(key: str, mapping: dict) -> str:
     """Maps the name of the column to the string behind "-" of the label.
 
@@ -47,7 +62,8 @@ def prepare_data_columnswise(
     """
     if weight:
         df = df.loc[:, f:t].multiply(df.loc[:, "WAGA"], axis=0)
-    df = df.loc[:, f:t]
+    else:
+        df = df.loc[:, f:t]
 
     df = (
         df.rename(columns=lambda x: rename_column(key=x, mapping=mapping))
@@ -56,8 +72,12 @@ def prepare_data_columnswise(
         .rename(columns={"index": "group", 0: "count"})
         .sort_values("count")
     )
-    df["group"] = df["group"].map(lambda x: JEDNOSTKI.get(x.strip(), x.strip()))
-    df["group"] = df["group"].apply(lambda x: "\n".join(wrap(x, 30)))
+    df["group"] = df["group"].map(
+        lambda x: JEDNOSTKI.get(strip_string(x), strip_string(x))
+    )
+    df["group"] = df["group"].apply(
+        lambda x: "\n".join(wrap(x, 30)) if isinstance(x, str) else x
+    )
 
     return df
 
@@ -89,17 +109,19 @@ def prepare_data_rowise(
         frequencies for categories in given column
     """
     if weight:
-        df = df.loc[:, key].multiply(df.loc[:, "WAGA"], axis=0)
-    df = df.loc[:, key]
+        df = df.loc[:, [key, "WAGA"]].groupby(key).sum("WAGA")
+    else:
+        df = df.loc[:, key].value_counts()
 
     df = (
-        df.value_counts()
-        .reset_index()
-        .rename(columns={key: "group"})
+        df.reset_index()
+        .rename(columns={key: "group", "WAGA": "count"})
         .sort_values("count")
     )
-    df["group"] = df["group"].map(mapping[key])
-    df["group"] = df["group"].map(lambda x: JEDNOSTKI.get(x.strip(), x.strip()))
-    df["group"] = df["group"].apply(lambda x: "\n".join(wrap(x, 30)))
+    df["group"] = df["group"].map(lambda x: mapping[key][x] if key in mapping else x)
+    df["group"] = df["group"].map(
+        lambda x: JEDNOSTKI.get(strip_string(x), strip_string(x))
+    )
+    df["group"] = df["group"].apply(lambda x: "\n".join(wrap(str(x), 30)))
 
     return df

@@ -65,4 +65,5 @@ JEDNOSTKI = {
     "Szkoła Doktorska Nauk Humanistycznych": "SDNH",
     "Szkoła Doktorska Nauk Społecznych": "SDNS",
     "Międzydziedzinowa Szkoła Doktorska": "MSD",
+    "W obecnym semestrze nie dojeżdzam na uczelnię": 0,
 }
