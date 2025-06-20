@@ -1,3 +1,4 @@
+# %%
 import pyreadstat
 from pejk import RAW, PNG, EXCEL
 import matplotlib.pyplot as plt

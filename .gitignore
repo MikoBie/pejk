@@ -170,3 +170,5 @@ data
 
 notebooks/models
 notebooks/*/*
+
+**/*.xlsx

@@ -67,3 +67,27 @@ JEDNOSTKI = {
     "Międzydziedzinowa Szkoła Doktorska": "MSD",
     "W obecnym semestrze nie dojeżdzam na uczelnię": 0,
 }
+
+EMISSION = {
+    "Samochód (spalinowy)": 0.17067,
+    "Motocykl / skuter (spalinowy)": 0.11355,
+    "Samochód elektryczny": 0.0514,
+    "Autobus miejski": 0.0965,
+    "Tramwaj": 0.098,
+    "Metro": 0.098,
+    "Pociąg": 0.098,
+    "Pieszo": 0,
+    "Rower tradycyjny": 0,
+    "Samochód hybrydowy": 0.12004,
+    "Benzyna": 0.17048,
+    "Diesel": 0.1708241,
+    "Samolot": 0.15102,
+    "Skuter elektryczny": 0.0165,
+    "Hulajnoga elektryczna": 0.0165,
+    "Rower elektryczny": 0.0165,
+}
+
+N_TEACHERS = 4294
+N_NON_TEACHERS = 4058
+N_STUDENTS = 40484
+N_ALL = N_TEACHERS + N_NON_TEACHERS + N_STUDENTS

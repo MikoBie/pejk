@@ -49,10 +49,6 @@ fig.savefig(PNG / "roles-distribution.png")
 if __name__ != "__main__":
     plt.show()
 
-
-# %%
-
-
 # %%
 ## Studia pierwszego stopnia
 studies = prepare_data_columnswise(

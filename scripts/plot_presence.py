@@ -34,7 +34,7 @@ presence.to_excel(EXCEL / "monthly-presence-summer.xlsx")
 
 fig = plot_barhplot(df=presence_monthly, x="group", y="count", padding=1)
 fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w tygodniu; semestr letni)",
+    "Rozkład liczby dni na uniwersytecie (w miesiącu; semestr letni)",
     ha="center",
     fontsize=12,
     weight="bold",
@@ -70,7 +70,7 @@ presence.to_excel(EXCEL / "monthly-presence-winter.xlsx")
 
 fig = plot_barhplot(df=presence_monthly, x="group", y="count", padding=1)
 fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w tygodniu; semestr zimowy)",
+    "Rozkład liczby dni na uniwersytecie (w miesiącu; semestr zimowy)",
     ha="center",
     fontsize=12,
     weight="bold",

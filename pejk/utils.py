@@ -125,3 +125,37 @@ def prepare_data_rowise(
     df["group"] = df["group"].apply(lambda x: "\n".join(wrap(str(x), 30)))
 
     return df
+
+
+def compute_transport_days(
+    x: pd.Series, f: str, t: str, days: str, times_semester: tuple = (20, 5)
+) -> pd.Series:
+    """Compute the number of transport days based on the number of days a
+    person was present at the university.
+
+    Parameters
+    ----------
+    x :
+        a row of the DataFrame containing the number of days present at the university
+    f :
+        the name of the column from where to select demographic data
+    t :
+        the name of the column to where to select demographic data
+
+    days :
+        the name of the column containing the number of days a person was present at the university weekly
+
+    times_semester :
+        a tuple containing the number of weeks in the semester or weekends with classes, respectively. Defaults to (20, 5).
+
+    Returns
+    -------
+        a Series containing the number of transport days in the semester.
+    """
+
+    if x.loc[days] > 0:
+        return x.loc[f:t].multiply(times_semester[0]).multiply(x.loc[days], axis=0)
+    else:
+        return (
+            x.loc[f:t].multiply(times_semester[1]).multiply(x.loc[f"{days}b"], axis=0)
+        )

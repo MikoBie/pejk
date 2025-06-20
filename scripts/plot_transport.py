@@ -4,9 +4,19 @@ from pejk import RAW, PNG, EXCEL
 import matplotlib.pyplot as plt
 from pejk.utils import prepare_data_rowise, prepare_data_columnswise
 from pejk.plots import plot_barhplot
+import numpy as np
 
 # %%
 df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
+
+# %%
+counts, bins = np.histogram(
+    df.query("P6 == P6").loc[:, "P6"], bins=[item for item in range(0, 451, 2)]
+)
+
+fig = plt.figure(figsize=(10, 8))
+plt.bar(bins[:-1], counts[:], width=1.5)
+fig.axes[0].xaxis.set_ticks([item for item in range(0, 451, 20)])
 
 # %%
 transport = prepare_data_columnswise(
@@ -134,7 +144,7 @@ if __name__ != "__main__":
 
 # %%
 transport_dominant = prepare_data_rowise(
-    df=df, key="P8", mapping=mappings.variable_value_labels, weight=False
+    df=df, key="P8b", mapping=mappings.variable_value_labels, weight=False
 )
 transport.to_excel(EXCEL / "transport-dominat-winter.xlsx")
 
@@ -149,3 +159,5 @@ fig.tight_layout()
 fig.savefig(PNG / "transport-dominant-winter.png")
 if __name__ != "__main__":
     plt.show()
+
+# %%
