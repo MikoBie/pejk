@@ -2,7 +2,7 @@
 import pyreadstat
 from pejk import RAW
 from pejk.config import EMISSION, N_TEACHERS, N_STUDENTS, N_NON_TEACHERS
-from pejk.utils import compute_transport_days
+from pejk.utils import compute_transport_days, compute_emission
 
 # %%
 ## Prepare data
@@ -114,33 +114,33 @@ non_teachers_winter.loc[:, "emission"] = (
 )
 
 # %%
-students_summer_emission = students_summer.loc[:, "WAGA"].multiply(
-    students_summer.loc[:, "emission"], axis=0
-).sum() * (N_STUDENTS / n_students)
+students_summer_emission = compute_emission(
+    df=students_summer, N_GROUP=N_STUDENTS, n_group=n_students
+)
 print("Students Summer Emission:", students_summer_emission)
-students_winter_emission = students_winter.loc[:, "WAGA"].multiply(
-    students_winter.loc[:, "emission"], axis=0
-).sum() * (N_STUDENTS / n_students)
+students_winter_emission = compute_emission(
+    df=students_winter, N_GROUP=N_STUDENTS, n_group=n_students
+)
 print("Students Winter Emission:", students_winter_emission)
 
 
 # %%
-teachers_summer_emission = teachers_summer.loc[:, "WAGA"].multiply(
-    teachers_summer.loc[:, "emission"], axis=0
-).sum() * (N_TEACHERS / n_teachers)
+teachers_summer_emission = compute_emission(
+    df=teachers_summer, N_GROUP=N_TEACHERS, n_group=n_teachers
+)
 print("Teachers Summer Emission:", teachers_summer_emission)
-teachers_winter_emission = teachers_winter.loc[:, "WAGA"].multiply(
-    teachers_winter.loc[:, "emission"], axis=0
-).sum() * (N_TEACHERS / n_teachers)
+teachers_winter_emission = compute_emission(
+    df=teachers_winter, N_GROUP=N_TEACHERS, n_group=n_teachers
+)
 print("Teachers Winter Emission:", teachers_winter_emission)
 
 # %%
-non_teachers_summer_emission = non_teachers_summer.loc[:, "WAGA"].multiply(
-    non_teachers_summer.loc[:, "emission"], axis=0
-).sum() * (N_NON_TEACHERS / n_non_teachers)
+non_teachers_summer_emission = compute_emission(
+    df=non_teachers_summer, N_GROUP=N_NON_TEACHERS, n_group=n_non_teachers
+)
 print("Non-teachers Summer Emission:", non_teachers_summer_emission)
-non_teachers_winter_emission = non_teachers_winter.loc[:, "WAGA"].multiply(
-    non_teachers_winter.loc[:, "emission"], axis=0
-).sum() * (N_NON_TEACHERS / n_non_teachers)
+non_teachers_winter_emission = compute_emission(
+    df=non_teachers_winter, N_GROUP=N_NON_TEACHERS, n_group=n_non_teachers
+)
 print("Non-teachers Winter Emission:", non_teachers_winter_emission)
 # %%

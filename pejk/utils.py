@@ -157,5 +157,47 @@ def compute_transport_days(
         return x.loc[f:t].multiply(times_semester[0]).multiply(x.loc[days], axis=0)
     else:
         return (
-            x.loc[f:t].multiply(times_semester[1]).multiply(x.loc[f"{days}b"], axis=0)
+            x.loc[f:t]
+            .multiply(times_semester[1])
+            .multiply(x.get(f"{days}b", 0), axis=0)
         )
+
+
+def compute_emission(df: pd.DataFrame, N_GROUP: int, n_group: int) -> float:
+    """Compute the the total emission for a given group.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        data frame with the data prepared for the emissions calculation
+    N_GROUP : int
+        the frequence of the given group in the population
+    n_group : int
+        the frequency of the the given group in the sample
+
+    Returns
+    -------
+    float
+        the approximation of total emission for the given group
+    """
+    return df.loc[:, "WAGA"].multiply(df.loc[:, "emission"], axis=0).sum() * (
+        N_GROUP / n_group
+    )
+
+
+def division_zero(x: float, y: float) -> float:
+    """Return the division of two numbers or zero if the denominator is zero.
+
+    Parameters
+    ----------
+    x : float
+        numerator
+    y : float
+        denominator
+
+    Returns
+    -------
+    float
+        the result of the division or zero if the denominator is zero
+    """
+    return x / y if y != 0 else 0.0
