@@ -85,6 +85,10 @@ EMISSION = {
     "Skuter elektryczny": 0.0165,
     "Hulajnoga elektryczna": 0.0165,
     "Rower elektryczny": 0.0165,
+    "Benzynowy": 0.17048,
+    "Deisel": 0.1708241,
+    "Hybrydowy": 0.12004,
+    "Elektryczny": 0.0514,
 }
 
 N_TEACHERS = 4294
