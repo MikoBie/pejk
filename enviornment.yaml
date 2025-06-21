@@ -1,0 +1,17 @@
+name: pejk
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.13.5
+  - pip
+  - pip:
+    - pandas
+    - matplotlib
+    - pre-commit
+    - ruff
+    - ipykernel
+    - pyreadstat
+    - openpyxl
+    - pytest
+    - --editable .
