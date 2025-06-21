@@ -63,3 +63,5 @@ fig.tight_layout()
 fig.savefig(PNG / "campus-dominant.png")
 if __name__ != "__main__":
     plt.show()
+
+# %%

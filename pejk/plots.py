@@ -3,7 +3,9 @@ import pandas as pd
 from pejk.config import COLORS
 
 
-def plot_barhplot(df: pd.DataFrame, y: str, x: str, padding: int = 10) -> plt.Figure:
+def plot_barhplot(
+    df: pd.DataFrame, y: str, x: str, padding: int = 1, labels: bool = True
+) -> plt.Figure:
     """Plot horizontal barplots
 
     Parameters
@@ -23,11 +25,14 @@ def plot_barhplot(df: pd.DataFrame, y: str, x: str, padding: int = 10) -> plt.Fi
     """
     fig = plt.figure(figsize=(10, 8))
     rects = plt.barh(df[x].tolist(), df[y].tolist(), color=COLORS["dark blue"])
-    fig.axes[0].bar_label(rects, padding=padding, fmt=lambda x: int(x))
+    if labels:
+        fig.axes[0].bar_label(rects, padding=padding, fmt=lambda x: int(round(x, 0)))
     return fig
 
 
-def plot_barplot(df: pd.DataFrame, y: str, x: str, padding: int = 10) -> plt.Figure:
+def plot_barplot(
+    df: pd.DataFrame, y: str, x: str, padding: int = 1, labels: bool = True
+) -> plt.Figure:
     """Plot barplots
 
     Parameters
@@ -47,5 +52,6 @@ def plot_barplot(df: pd.DataFrame, y: str, x: str, padding: int = 10) -> plt.Fig
     """
     fig = plt.figure(figsize=(10, 8))
     rects = plt.bar(df[x].tolist(), df[y].tolist(), color=COLORS["dark blue"])
-    fig.axes[0].bar_label(rects, padding=padding)
+    if labels:
+        fig.axes[0].bar_label(rects, padding=padding, fmt=lambda x: int(round(x, 0)))
     return fig

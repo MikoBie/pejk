@@ -14,4 +14,5 @@ dependencies:
     - pyreadstat
     - openpyxl
     - pytest
+    - jupyter
     - --editable .

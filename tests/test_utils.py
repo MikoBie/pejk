@@ -7,6 +7,7 @@ from pejk.utils import (
     compute_transport_days,
     compute_emission,
     division_zero,
+    prepare_comparison_data,
 )
 import pandas as pd
 
@@ -195,3 +196,27 @@ def test_division_zero():
     assert division_zero(10, 0) == 0
     assert division_zero(0, 10) == 0
     assert division_zero(0, 0) == 0
+
+
+def test_prepare_comparison_data():
+    new_data = {
+        "group": ["P1", "P2", "P3"],
+        "count": [4, 5, 6],
+    }
+    old_data = {
+        "group": ["P1", "P2", "P3"],
+        "count": [2, 8, 8],
+    }
+    new_df = pd.DataFrame(new_data)
+    old_df = pd.DataFrame(old_data)
+
+    result = prepare_comparison_data(new_df, old_df)
+    assert isinstance(result, pd.DataFrame)
+    assert len(result) == len(new_df)
+    assert set(result.columns) == {"count", "group"}
+    assert result["group"].sort_values().tolist() == ["P1", "P2", "P3"]
+    assert result.sort_values("group")["count"].tolist() == [
+        100 * new_df.loc[0, "count"] / old_df.loc[0, "count"],
+        100 * new_df.loc[1, "count"] / old_df.loc[1, "count"],
+        100 * new_df.loc[2, "count"] / old_df.loc[2, "count"],
+    ]

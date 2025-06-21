@@ -201,3 +201,25 @@ def division_zero(x: float, y: float) -> float:
         the result of the division or zero if the denominator is zero
     """
     return x / y if y != 0 else 0.0
+
+
+def prepare_comparison_data(new: pd.DataFrame, old: pd.DataFrame) -> pd.DataFrame:
+    """Prepare data for plotting comparison of two dataframes.
+    Parameters
+    ----------
+    new : pd.DataFrame
+        the new data frame with the data to compare
+    old : pd.DataFrame
+        the old data frame with the data to compare
+    Returns
+    -------
+    pd.DataFrame
+        a data frame with the comparison of the two data frames
+    """
+    return (
+        new.set_index("group")
+        .divide(old.set_index("group"))
+        .multiply(100)
+        .reset_index()
+        .sort_values("count")
+    )

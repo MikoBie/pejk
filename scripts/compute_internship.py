@@ -84,6 +84,3 @@ internship_emission = (
     / n_students
 )
 print("Students Intenship Emission", internship_emission)
-
-
-# %%
