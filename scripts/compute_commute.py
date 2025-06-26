@@ -25,12 +25,15 @@ n_teachers = df.query("teachers > 0").shape[0]
 ## Students Summer emissions
 students_summer = df.query("students > 0").reset_index(drop=True)
 
-students_summer.loc[:, "P1_1":"P1_4"] = students_summer.apply(
-    lambda x: compute_transport_days(x=x, f="P1_1", t="P1_4", days="P4"), axis=1
+students_summer.loc[:, "P1_1":"P1_5"] = students_summer.apply(
+    lambda x: compute_transport_days(
+        x=x, f="P1_1", t="P1_5", days="P4", times_semester=(15, 5)
+    ),
+    axis=1,
 )
 
 students_summer["emission"] = (
-    students_summer.loc[:, "P1_1":"P1_4"]
+    students_summer.loc[:, "P1_1":"P1_5"]
     .max(axis=1)
     .multiply(students_summer.loc[:, "P6"], axis=0)
     .multiply(students_summer.loc[:, "P8"], axis=0)
@@ -40,12 +43,15 @@ students_summer["emission"] = (
 ## Students Winter emissions
 students_winter = df.query("students > 0").reset_index(drop=True)
 
-students_winter.loc[:, "P1_1":"P1_4"] = students_winter.apply(
-    lambda x: compute_transport_days(x=x, f="P1_1", t="P1_4", days="P5"), axis=1
+students_winter.loc[:, "P1_1":"P1_5"] = students_winter.apply(
+    lambda x: compute_transport_days(
+        x=x, f="P1_1", t="P1_5", days="P5", times_semester=(15, 5)
+    ),
+    axis=1,
 )
 
 students_winter.loc[:, "emission"] = (
-    students_winter.loc[:, "P1_1":"P1_4"]
+    students_winter.loc[:, "P1_1":"P1_5"]
     .max(axis=1)
     .multiply(students_winter.loc[:, "P6"], axis=0)
     .multiply(students_winter.loc[:, "P8"], axis=0)

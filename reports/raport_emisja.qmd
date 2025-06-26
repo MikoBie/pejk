@@ -99,28 +99,17 @@ gdzie:
 - $NG$ -- liczebność grupy na UW.
 
 W poniższej tabeli są policzone emisje dla podróży na UW w zależności od
-semestru. Przy czym, tak jak pisałem powyżej nie jestem przekonany czy nie
-trzeba by jednak emisji każdej z osób pomnożyć razy dwa. Pytanie o odległość
-brzmi bowiem tak: "Proszę podać przybliżoną odległość w kilometrach pomiędzy
-miejscem, z którego zazwyczaj Pan/Pani wyrusza, a wybraną wyżej lokalizacją."
+semestru.
 
 Grupa | Semestr letni | Semestr zimowy
 ------|:-------------:|:--------------:
-Osoby studenckie (plus osoby doktoranckie) | 10099285.96 | 10735358.93
+Osoby studenckie (plus osoby doktoranckie) | 8047376.54 | 8493050.71
 Nauczyciele i nauczycielki akademickie | 184433.82 | 183370.98
 Pozostałe pracownice i pracownicy | 465125.31 | 458434.91
 
-Jakoś zaskakujące może być to, że pracownice i pracownicy nie będący
-nauczycielkami akademickimi jako jedyna grupa więcej emitują w lecie niż w
-zimie. Choć ta różnica nie jest specjalnie duża. Trudno na tej podstawie
-wyciągać jakieś wnioski, zwłaszcza, że jest tutaj trochę artefaktów. Jak
-spojrzycie na dane poniżej -- przeważone różnice procentowe pomiędzy
-środkami docierania pomiędzy zimą i latem.  Z jednej strony u osób studenckich
-widać wzrost liczby osób korzystających z rowerów elektrycznych, ale to jest
-artefakt bo realny wzrost to 2 osoby. W zimie jeździła jedna osoba, a w lecie
-jeżdżą trzy. Z tym, że w zimie ta osoba miała wagę $1.103991$, a w lecie te dwie
-dodatkowe osoby każda mają $2.553254$. Innymi słowy $\frac{2\times 2.55 +
-1.1}{1.1} \times 100\% = 563\%$.
+Poprzednio mam wrażenie, że napisałem tutaj głupotę, bo tylko u osób studenckich
+jest tak jak powinno być (razem z podyplomówką), czyli latem mniejsza emisja
+niż zimą.
 
 Osoby studenckie (+doktoranckie) | Osoby pracownicze (nie nauczycielskie)  
 :-------------------------:|:-------------------------:

@@ -23,7 +23,7 @@ students_summer.loc[:, "P1_1":"P1_4"] = students_summer.apply(
         f="P1_1",
         t="P1_4",
         days="P14",
-        times_semester=(division_zero(2, x["P14"]), 0),
+        times_semester=(division_zero(1, x["P14"]), 0),
     ),
     axis=1,
 )
@@ -43,7 +43,7 @@ students_academic.loc[:, "P1_1":"P1_4"] = students_academic.apply(
         f="P1_1",
         t="P1_4",
         days="P14",
-        times_semester=(division_zero(2, x["P14"]), 0),
+        times_semester=(division_zero(1, x["P14"]), 0),
     ),
     axis=1,
 )
@@ -65,7 +65,7 @@ students_no_classes.loc[:, "P1_1":"P1_4"] = students_no_classes.apply(
         f="P1_1",
         t="P1_4",
         days="P14",
-        times_semester=(division_zero(2, x["P14"]), 0),
+        times_semester=(division_zero(1, x["P14"]), 0),
     ),
     axis=1,
 )
