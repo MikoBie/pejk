@@ -18,36 +18,32 @@ citation-location: margin
 ## Wstęp
 
 Zajęło mi to moment dłużej niż planowałem, bo się zorientowałem, że był błąd w
-niketórych moich obliczeniach. Niestety emisja była niedoszacowana jeśli chodzi
+niektórych moich obliczeniach. Niestety emisja była niedoszacowana jeśli chodzi
 o wyjazdy...
 
 ### Dojazdy na uczelnie
 
 Co do liczenia korekty to moim zdaniem ona na nic się nie zda bo tak naprawdę
-korekta jest tylko dla semstru zimowego bo tylko semestr zimowy był w 2024 roku.
-Poza tym, jeśli ktoś był na Erasmusie 45 dni i dojeżdżał 45 dni w semstrze 
+korekta jest tylko dla semestru zimowego bo tylko semestr zimowy był w 2024 roku.
+Poza tym, jeśli ktoś był na Erasmusie 45 dni i dojeżdżał 45 dni w semestrze 
 zimowym to cała jego emisja zniknie. Mimo że tak naprawdę ma zajęcia tylko 3
 razy w tygodniu, a na Erasmusie był 6 i pół tygodnia. Moim zdaniem wyniki z
 korektą to jest artefakt i bym go nie uwzględniał.
 
 Grupa | Semestr letni | Semestr letni (korekta) | Semestr zimowy | Semestr zimowy (korekta)
 ------|:-------------:|:-----------------------:|:--------------:|:------------:
-Osoby studenckie (plus osoby doktoranckie) | 8047376.54 | | 8493050.71 |
-Nauczyciele i nauczycielki akademickie | 184433.82 | | 183370.98 |
-Pozostałe pracownice i pracownicy | 465125.31 | | 458434.91 |
+Osoby studenckie (plus osoby doktoranckie) | 8047376.54 | | 8493050.71 | 8267621.74
+Nauczyciele i nauczycielki akademickie | 184433.82 | | 183370.98 | 176581.06
+Pozostałe pracownice i pracownicy | 465125.31 | | 458434.91 | 454034.01
 
 Poprzednio mam wrażenie, że napisałem tutaj głupotę, bo tylko u osób studenckich
 jest tak jak powinno być (razem z podyplomówką), czyli latem mniejsza emisja
 niż zimą.
 
-Osoby studenckie (+doktoranckie) | Osoby pracownicze (nie nauczycielskie)  
-:-------------------------:|:-------------------------:
-[![**Ryc. 5.** Porównanie popularności środków transportu pomiędzy latem i zimą u osób studenckich (+doktoranckich)](../png/students-transport-dominant-compare.png)](5)  |  [![**Ryc. 6.** Porównanie popularności środków transportu pomiędzy zimą i latem u pracownic i pracowników nie będących nauczycielkami akademickimi](../png/non-teachers-transport-dominant-compare.png)](6)
-
 ### Podróże między kampusami
 
-Zapomniałem tylko dodać, że tutaj wymnarzam wszystko razy dwa no bo są dwa 
-semestry, więc zakładam, że osoby studenckie przemiszczają się między kampusami
+Zapomniałem tylko dodać, że tutaj wymnażam wszystko razy dwa no bo są dwa 
+semestry, więc zakładam, że osoby studenckie przemieszczają się między kampusami
 przez 30 tygodni (nie wliczałem tutaj ludzi na podyplomówkach), osoby
 nauczycielskie -- 45, a pracownice i pracownicy -- 48.
 
@@ -63,7 +59,7 @@ Jeśli chodzi o praktyki i staże to zdecydowana większość ludzi robiła je w
 trakcie roku akademickiego poza godzinami zajęć. Emisję liczyłem tak samo jak w
 poprzednich przypadkach. Nie jestem jednak w stanie policzyć emisji dla każdej z
 grup. Mogę to zrobić tylko dla wszystkich razem. Wynika to z faktu, że nie wiem
-jaka jest dla poszczególnej kategorii (rodzaju parktyk) liczebność na całym UW.
+jaka jest dla poszczególnej kategorii (rodzaju praktyk) liczebność na całym UW.
 
 Grupa | Liczebność | Emisja
 ------|:----------:|:------:

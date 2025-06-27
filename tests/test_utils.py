@@ -8,8 +8,10 @@ from pejk.utils import (
     compute_emission,
     division_zero,
     prepare_comparison_data,
+    weight_absence,
 )
 import pandas as pd
+import numpy as np
 
 
 def test_strip_string():
@@ -220,3 +222,20 @@ def test_prepare_comparison_data():
         100 * new_df.loc[1, "count"] / old_df.loc[1, "count"],
         100 * new_df.loc[2, "count"] / old_df.loc[2, "count"],
     ]
+
+
+@pytest.mark.parametrize(
+    "x",
+    [
+        pd.Series({"P1": 1, "P2": 0}),
+        pd.Series({"P1": 1, "P2": 2}),
+        pd.Series({"P1": 1, "P2": 0}),
+    ],
+)
+def test_weight_absence(x):
+    result = weight_absence(x=x, condition="P2", absence="P1")
+    assert isinstance(result, np.int64)
+    if x["P2"] == 0:
+        assert result == 0
+    else:
+        assert result == 1 if x["P1"] > 0 else 0

@@ -2,7 +2,7 @@
 import pyreadstat
 from pejk import RAW
 from pejk.config import EMISSION, N_TEACHERS, N_STUDENTS, N_NON_TEACHERS
-from pejk.utils import compute_transport_days, compute_emission
+from pejk.utils import compute_transport_days, compute_emission, weight_absence
 
 # %%
 ## Prepare data
@@ -72,9 +72,18 @@ students_winter_corrected.loc[:, "emission"] = (
     .max(axis=1)
     .sub(
         students_winter_corrected.apply(
-            lambda x: x.loc["P26"] * 1 if x.loc["P25"] == 2 else x.loc["P26"] * 0,
+            lambda x: weight_absence(x=x, condition="P25", absence="P26"),
             axis=1,
-        ),
+        ).fillna(0),
+        axis=0,
+    )
+    .sub(
+        students_winter_corrected.apply(
+            lambda x: weight_absence(
+                x=x, condition="P20", absence="P21b", weight=(7, 0)
+            ),
+            axis=1,
+        ).fillna(0),
         axis=0,
     )
     .multiply(students_winter_corrected.loc[:, "P6"], axis=0)
@@ -112,6 +121,37 @@ teachers_winter.loc[:, "emission"] = (
 )
 
 # %%
+teachers_winter_corrected = df.query("teachers > 0").reset_index(drop=True)
+
+teachers_winter_corrected.loc[:, "P1_6"] = teachers_winter_corrected.apply(
+    lambda x: compute_transport_days(
+        x=x, f="P1_6", t="P1_6", days="P5", times_semester=(22, 5.5)
+    ),
+    axis=1,
+)
+
+teachers_winter_corrected.loc[:, "emission"] = (
+    teachers_winter_corrected.loc[:, "P1_6"]
+    .sub(
+        teachers_winter_corrected.apply(
+            lambda x: weight_absence(x=x, condition="P25", absence="P26"),
+            axis=1,
+        ).fillna(0),
+        axis=0,
+    )
+    .sub(
+        teachers_winter_corrected.apply(
+            lambda x: weight_absence(
+                x=x, condition="P20", absence="P21b", weight=(7, 0)
+            ),
+            axis=1,
+        ).fillna(0),
+        axis=0,
+    )
+    .multiply(teachers_winter_corrected.loc[:, "P6"], axis=0)
+    .multiply(teachers_winter_corrected.loc[:, "P8"], axis=0)
+)
+# %%
 ## Non-teachers Summer emissions
 non_teachers_summer = df.query("non_teachers > 0").reset_index(drop=True)
 non_teachers_summer.loc[:, "P1_7"] = non_teachers_summer.apply(
@@ -141,6 +181,37 @@ non_teachers_winter.loc[:, "emission"] = (
     .multiply(non_teachers_winter.loc[:, "P6"], axis=0)
     .multiply(non_teachers_winter.loc[:, "P8"], axis=0)
 )
+# %%
+non_teachers_winter_corrected = df.query("non_teachers > 0").reset_index(drop=True)
+
+non_teachers_winter_corrected.loc[:, "P1_7"] = non_teachers_winter_corrected.apply(
+    lambda x: compute_transport_days(
+        x=x, f="P1_7", t="P1_7", days="P5", times_semester=(24, 5.5)
+    ),
+    axis=1,
+)
+
+non_teachers_winter_corrected.loc[:, "emission"] = (
+    non_teachers_winter_corrected.loc[:, "P1_7"]
+    .sub(
+        non_teachers_winter_corrected.apply(
+            lambda x: weight_absence(x=x, condition="P25", absence="P26"),
+            axis=1,
+        ).fillna(0),
+        axis=0,
+    )
+    .sub(
+        non_teachers_winter_corrected.apply(
+            lambda x: weight_absence(
+                x=x, condition="P20", absence="P21b", weight=(7, 0)
+            ),
+            axis=1,
+        ).fillna(0),
+        axis=0,
+    )
+    .multiply(non_teachers_winter_corrected.loc[:, "P6"], axis=0)
+    .multiply(non_teachers_winter_corrected.loc[:, "P8"], axis=0)
+)
 
 # %%
 students_summer_emission = compute_emission(
@@ -151,6 +222,13 @@ students_winter_emission = compute_emission(
     df=students_winter, N_GROUP=N_STUDENTS, n_group=n_students
 )
 print("Students Winter Emission:", students_winter_emission)
+
+students_winter_corrected_emission = compute_emission(
+    df=students_winter_corrected.query("emission >=0"),
+    N_GROUP=N_STUDENTS,
+    n_group=n_students,
+)
+print("Students Corrected Winter Emission:", students_winter_corrected_emission)
 
 
 # %%
@@ -163,6 +241,13 @@ teachers_winter_emission = compute_emission(
 )
 print("Teachers Winter Emission:", teachers_winter_emission)
 
+teachers_winter_corrected_emission = compute_emission(
+    df=teachers_winter_corrected.query("emission >=0"),
+    N_GROUP=N_TEACHERS,
+    n_group=n_teachers,
+)
+print("Teachers Corrected Winter Emission:", teachers_winter_corrected_emission)
+
 # %%
 non_teachers_summer_emission = compute_emission(
     df=non_teachers_summer, N_GROUP=N_NON_TEACHERS, n_group=n_non_teachers
@@ -172,4 +257,11 @@ non_teachers_winter_emission = compute_emission(
     df=non_teachers_winter, N_GROUP=N_NON_TEACHERS, n_group=n_non_teachers
 )
 print("Non-teachers Winter Emission:", non_teachers_winter_emission)
+
+non_teachers_winter_corrected_emission = compute_emission(
+    df=non_teachers_winter_corrected.query("emission >=0"),
+    N_GROUP=N_NON_TEACHERS,
+    n_group=n_non_teachers,
+)
+print("Non-teachers Corrected Winter Emission:", non_teachers_winter_corrected_emission)
 # %%

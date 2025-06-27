@@ -223,3 +223,35 @@ def prepare_comparison_data(new: pd.DataFrame, old: pd.DataFrame) -> pd.DataFram
         .reset_index()
         .sort_values("count")
     )
+
+
+def weight_absence(
+    x: pd.Series,
+    condition: str,
+    absence: str,
+    weight: tuple = (1, 0),
+    condition_value: int = 2,
+) -> int:
+    """Compute the weighted number of absences based on the condition
+
+    Parameters
+    ----------
+    x : pd.Series
+        a row of the DataFrame containing the number of absences
+    condition : str
+        the name of the column containing the condition for absence
+    absence : str
+        the name of the column containing the number of absences
+    weight : tuple, optional
+        a tuple containing the weights for the absence, by default (1, 0)
+    condition_value : int, optional
+        the value of the condition to check, by default 2
+    Returns
+    -------
+    int
+        the weighted number of absences
+    """
+    if x.loc[condition] == condition_value:
+        return x.loc[absence] * weight[0]
+    else:
+        return x.loc[absence] * weight[1]
