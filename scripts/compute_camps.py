@@ -2,7 +2,7 @@
 import pyreadstat
 from pejk import RAW
 from pejk.config import EMISSION, N_STUDENTS, N_WEEKENDERS
-from pejk.utils import compute_transport_days, compute_emission, division_zero
+from pejk.utils import compute_emission
 
 # %%
 ## Prepare data
@@ -17,16 +17,6 @@ n_students = df.query("students > 0").shape[0]
 
 # %%
 students_summer = df.query("students > 0").query("P20 == 1.0").reset_index(drop=True)
-students_summer.loc[:, "P1_1":"P1_4"] = students_summer.apply(
-    lambda x: compute_transport_days(
-        x=x,
-        f="P1_1",
-        t="P1_4",
-        days="P14",
-        times_semester=(division_zero(1, x["P14"]), 0),
-    ),
-    axis=1,
-)
 
 students_summer.loc[:, "emission"] = (
     students_summer.loc[:, "P1_1":"P1_4"]
@@ -37,16 +27,6 @@ students_summer.loc[:, "emission"] = (
 
 # %%
 students_academic = df.query("students > 0").query("P20 == 3.0").reset_index(drop=True)
-students_academic.loc[:, "P1_1":"P1_4"] = students_academic.apply(
-    lambda x: compute_transport_days(
-        x=x,
-        f="P1_1",
-        t="P1_4",
-        days="P14",
-        times_semester=(division_zero(1, x["P14"]), 0),
-    ),
-    axis=1,
-)
 
 students_academic.loc[:, "emission"] = (
     students_academic.loc[:, "P1_1":"P1_4"]
@@ -58,16 +38,6 @@ students_academic.loc[:, "emission"] = (
 # %%
 students_no_classes = (
     df.query("students > 0").query("P20 == 2.0").reset_index(drop=True)
-)
-students_no_classes.loc[:, "P1_1":"P1_4"] = students_no_classes.apply(
-    lambda x: compute_transport_days(
-        x=x,
-        f="P1_1",
-        t="P1_4",
-        days="P14",
-        times_semester=(division_zero(1, x["P14"]), 0),
-    ),
-    axis=1,
 )
 
 students_no_classes.loc[:, "emission"] = (

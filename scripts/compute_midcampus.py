@@ -22,7 +22,7 @@ n_teachers = df.query("teachers > 0").shape[0]
 students = df.query("students > 0").reset_index(drop=True)
 students.loc[:, "P1_1":"P1_4"] = students.apply(
     lambda x: compute_transport_days(
-        x=x, f="P1_1", t="P1_4", days="P9", times_semester=(40, 0)
+        x=x, f="P1_1", t="P1_4", days="P9", times_semester=(30, 0)
     ),
     axis=1,
 )

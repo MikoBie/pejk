@@ -57,6 +57,29 @@ students_winter.loc[:, "emission"] = (
     .multiply(students_winter.loc[:, "P8"], axis=0)
 )
 
+## Students Winter emissions
+students_winter_corrected = df.query("students > 0").reset_index(drop=True)
+
+students_winter_corrected.loc[:, "P1_1":"P1_5"] = students_winter_corrected.apply(
+    lambda x: compute_transport_days(
+        x=x, f="P1_1", t="P1_5", days="P5", times_semester=(15, 5)
+    ),
+    axis=1,
+)
+
+students_winter_corrected.loc[:, "emission"] = (
+    students_winter_corrected.loc[:, "P1_1":"P1_5"]
+    .max(axis=1)
+    .sub(
+        students_winter_corrected.apply(
+            lambda x: x.loc["P26"] * 1 if x.loc["P25"] == 2 else x.loc["P26"] * 0,
+            axis=1,
+        ),
+        axis=0,
+    )
+    .multiply(students_winter_corrected.loc[:, "P6"], axis=0)
+    .multiply(students_winter_corrected.loc[:, "P8"], axis=0)
+)
 
 # %%
 ## Teachers Summer emissions

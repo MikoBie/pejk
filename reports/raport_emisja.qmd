@@ -17,95 +17,24 @@ citation-location: margin
 
 ## Wstęp
 
-Poza całą masą różnego rodzaju obrazków dotyczących zmiennych demograficznych w
-poniżej znajdują się dane dotyczące emisji. Policzyłem, wydaję mi się, że
-wszystkie rodzaje emisji, których oczekiwałyście. Przed każdą tabelą z wynikami
-najpierw opisuję jak policzyłem daną kategorię (zgodnie z waszymi wytycznymi).
-
-## Próba
-
-Zanim jednak przejdę do omówienia liczenia emisji najpierw parę informacji na
-temat próby. Trochę to było widać na obrazkach, które wam już wysłałem w 
-zeszłym tygodniu. W sumie zbiór danych zawierał $3689$ rekordów co stanowi
-jakieś $7.5\%$ ludzi pracujących, kształcących się, czy studiujących na UW. 
-Oczywiście fakt, że mieliśmy tyle rekordów wcale nie znaczy, że rzeczywiście
-$3689$ osób wypełniło ankietę. Po pierwsze, niektóre rekordy zawierają dużo
-braków danych. Po drugie, czy nie jest tak, że to są wyniki tak naprawdę dwóch
-ankiet?
-
-[![*Ryc. 1.* Frekwencje w poszczególnych grupach](../png/groups.png)](1)
-
-Trochę tak jak rozmawialiśmy w środę nie ma co się specjalnie przejmować faktem,
-że ktoś pełni więcej niż jedną rolę na UW (porównaj Ryc. 2). Takich osób
-jest po prostu mało i ich wynik nie wpłynie jakoś znacząco na ogólną emisję.
-
-[![*Ryc. 2.* Rozkład liczby ról na UW](../png/roles-distribution.png)](2)
-
-W Excelach i na obrazkach, które są odpowiednio załączone znajdziecie więcej
-informacji na temat próby. Jak wyglądała struktura reprezentacji poszczególnych
-jednostek w poszczególnych grupach. Moim zdaniem nie ma tam specjalnych
-zaskoczeń.
+Zajęło mi to moment dłużej niż planowałem, bo się zorientowałem, że był błąd w
+niketórych moich obliczeniach. Niestety emisja była niedoszacowana jeśli chodzi
+o wyjazdy...
 
 ### Dojazdy na uczelnie
 
-Na razie policzyłem to co było w zakładce dojazdy na uczelnie bez korekty, bo 
-szczerze mówiąc nie bardzo rozumiem o co chodzi z dojazdami na uczelnie bez 
-korekty. Czy chodzi o to, że jak ktoś był na Erasmusie albo na innym wyjeździe
-to powinno mu się te dni odjąć? Nie wiem, na ile to jest wykonalne, bo na tej
-samej zasadzie należałoby odjąć dni gdy ta osoba była chora albo na konferencji.
+Co do liczenia korekty to moim zdaniem ona na nic się nie zda bo tak naprawdę
+korekta jest tylko dla semstru zimowego bo tylko semestr zimowy był w 2024 roku.
+Poza tym, jeśli ktoś był na Erasmusie 45 dni i dojeżdżał 45 dni w semstrze 
+zimowym to cała jego emisja zniknie. Mimo że tak naprawdę ma zajęcia tylko 3
+razy w tygodniu, a na Erasmusie był 6 i pół tygodnia. Moim zdaniem wyniki z
+korektą to jest artefakt i bym go nie uwzględniał.
 
-Poza tym, według mnie w semestrze jest 15 tygodni, a nie 20, więc poniższe 
-obliczenia z gruntu rzeczy są błędne (nawet jeśli uwzględnićby sesję to żadna
-osoba studencka nie jeździ na UW tak samo podczas sesji jak podczas roku
-akademickiego).
-
-Tak czy inaczej zastosowałem tutaj następujący wzór, żeby policzyć emisję
-pojedynczej osoby dla każdego semestru:
-
-$$ie = \#days \times frequency \times distance \times mode\_transport$$
-
-gdzie: 
-
-- $\#days$ to jest liczba dni;
-- $frequency$ -- jeśli osoba bywa rzadziej niż raz w miesiącu to jest to liczba miesięcy, w innym przypadku liczba tygodni;
-- $distance$ -- odległość od miejsca zamieszkania (czy nie powinniśmy liczyć tego podwójnie, bo jednak zazwyczaj ludzie nie tylko jadą na UW ale też z niego wracają?);
-- $mode\_transport$ -- emisja dla najczęściej używanego środka
-transportu.
-
-Poniższe dwie ryciny pokazują jaki jest udział każdego ze środków transportu w próbie. To co może budzić jakieś tam zdziwienie to fakt, że ludzie częściej chodzą w zimie niż w lecie. Choć szczerze mówiąc nie przywiązywałbym do tego specjalnej uwagi.
-
-Semestr letni |  Semestr zimowy 
-:-------------------------:|:-------------------------:
-[![**Ryc. 3.** Popularność środków transportu w semestrze letnim](../png/transport-dominant-summer.png)](3)  |  [![**Ryc. 4.** Popularność środków transportu w semestrze zimowym](../png/transport-dominant-winter.png)](4)
-
-Na podstawie indywidualnej emisji ($ie$) policzyłem emisję dla
-każdej z grup w próbie w semestrze letnim i zimowym:
-
-$$ge = \sum^{ng}_{i=1}(individual\_emission_{i} \times weight_{i})$$
-
-gdzie:
-
-- $ng$ -- liczebność grupy w próbie;
-- $individual\_emission_{i}$ -- indywidualna emisja dla osoby $i$;
-- $weight_{i}$ -- waga dla osoby $i$.
-
-Stąd, żeby oszacować emisję dla całej grupy na UW policzyłem:
-
-$$GE = group\_emission \times \frac{NG}{ng}$$
-
-gdzie:
-
-- $ng$ -- liczebność grupy w próbie;
-- $NG$ -- liczebność grupy na UW.
-
-W poniższej tabeli są policzone emisje dla podróży na UW w zależności od
-semestru.
-
-Grupa | Semestr letni | Semestr zimowy
-------|:-------------:|:--------------:
-Osoby studenckie (plus osoby doktoranckie) | 8047376.54 | 8493050.71
-Nauczyciele i nauczycielki akademickie | 184433.82 | 183370.98
-Pozostałe pracownice i pracownicy | 465125.31 | 458434.91
+Grupa | Semestr letni | Semestr letni (korekta) | Semestr zimowy | Semestr zimowy (korekta)
+------|:-------------:|:-----------------------:|:--------------:|:------------:
+Osoby studenckie (plus osoby doktoranckie) | 8047376.54 | | 8493050.71 |
+Nauczyciele i nauczycielki akademickie | 184433.82 | | 183370.98 |
+Pozostałe pracownice i pracownicy | 465125.31 | | 458434.91 |
 
 Poprzednio mam wrażenie, że napisałem tutaj głupotę, bo tylko u osób studenckich
 jest tak jak powinno być (razem z podyplomówką), czyli latem mniejsza emisja
@@ -117,31 +46,14 @@ Osoby studenckie (+doktoranckie) | Osoby pracownicze (nie nauczycielskie)
 
 ### Podróże między kampusami
 
-Tutaj jak rozumiem  zakładamy, że ludzie rozumieją, że jak
-odpowiadają na pytanie "Ile razy zazwyczaj w tygodniu przemieszcza się Pan/Pani
-pomiędzy różnymi lokalizacjami Uniwersytetu Warszawskiego (np. między Kampusem
-Głównym a Ochotą)? Proszę wpisać całkowitą liczbę takich przemieszczeń w
-tygodniu." to przejazd i powrót to są dwie podróże?
-
-Ogólnie to jakoś ciekawe jest to, że na $3689$ rekordów tylko $1243$ osoby
-zaznaczyły jaki jest ich dominujący kampus (czy wszyscy mieli to pytanie, bo to
-wydaje się dość łatwe pytanie, a tylko $\frac{1}{3}$ na nie odpowiedziała?).
-Wśród najpopularniejszych kampusów raczej bez zaskoczeń, bo na pierwszym
-miejscu jest Kampus Centralny z przyległościami.
-
-Popularność kampusów | Rozkład liczby odwiedzanych kampusów
-:-------------------:|:------------------------------------:
-[![**Ryc. 7.** Popularność kampusów](../png/campus.png)](7)|[![**Ryc. 8.** Rozkład liczby odwiedzanych kampusów](../png/campus_distribution.png)](8)
-
-No ale w każdym razie jeśli chodzi o to jak liczyłem tutaj emisję to było to
-analogicznie do tego jak robiłem to dla dojazdów na uczelnie w semestrach
-letnich i zimowych. Najpierw policzyłem emisje indywidualną, następnie
-zsumowałem przeważoną emisję dla próby i na sam koniec policzyłem emisję dla
-poszczególnych grup dla całego UW.
+Zapomniałem tylko dodać, że tutaj wymnarzam wszystko razy dwa no bo są dwa 
+semestry, więc zakładam, że osoby studenckie przemiszczają się między kampusami
+przez 30 tygodni (nie wliczałem tutaj ludzi na podyplomówkach), osoby
+nauczycielskie -- 45, a pracownice i pracownicy -- 48.
 
 Grupa | Emisja
 ------|:-----:
-Osoby studenckie (+doktoranckie) | 639327.42
+Osoby studenckie (+doktoranckie) | 479495.56
 Nauczyciele i nauczycielki akademickie | 17745.18
 Pracownicy i pracownice (nie nauczyciele) | 82789.17
 
@@ -162,35 +74,26 @@ SUMA | 283 | 600266.16
 
 ### Obozy i wyjazdy na staże poza Warszawę
 
-Założyłem tutaj, że na taki wyjazd się jedzie i z niego wraca. Innymi słowy
-odległość pomnożyłem przez 2. Poza tym liczyłem to analogicznie do tego
-jak liczyłem wszystkie inne rodzaje emisji. W poniższej tabeli analogiczny
-podział jak w przypadku Praktyk i staży. 
-
+Tutaj był błąd dlatego mimo że teraz liczę podróż tylko w jedną stronę emisja
+wzrosła a nie spadła.
 
 Grupa | Liczebność | Emisja
 ------|:----------:|:------:
 Obozy w lecie | 106 |
 Obozy w roku akademickim | 65 |
 Obozy zamiast zajęć | 141 |
-SUMA | 312 | 79401.74
+SUMA | 312 | 524659.77
 
 ### Erasmus
 
-Policzyłem na razie to tylko dla osób studenckich bo nie jestem pewien czy
-pytanie jednak nie wprowadzało w błąd. Brzmiało ono "Jeżeli odbywał(a) Pan/Pani
-wyjazd w ramach programu Erasmus lub innej wymiany studenckiej, jakim środkiem
-transportu dotarł(a) Pan/Pani do miejsca pobytu na Erasmusie lub innej wymiany
-studenckiej?". Ja wiem, że są też Erasmusy pracownicze, ale to pytanie jednak
-sugeruje, że chodzi o Erasmusy studenckie. Policzyłem to w sposób analogiczny do
-tego jak liczyłem obozy i wyjazdy poza Warszawę, czyli założyłem, że się jedzie
-i wraca z takiego wyjazdu.
+Tutaj też był błąd dlatego wynik dla osób studenckich jest wyższy niż poprzednio
+mimo że teraz liczę podróż tylko w jedną stronę.
 
-Grupa | Liczebność | Emisja
-------|:----------:|:------:
-Erasmus w lecie | 8 |
-Erasmus zamiast zajęć | 74 |
-SUMA | 82 | 287970.83
+Grupa | Osoby studenckie | Osoby nauczycielskie | Pracownice i pracownicy 
+------|:----------------:|:--------------------:|:-----------------------:
+Erasmus w lecie (n) | 8 | 7 | 4
+Erasmus zamiast zajęć (n) | 74 | 96 | 80
+Emisja | 687763.68 | 17961.82 | 29360.49
 
 ### Samochody służbowe
 
