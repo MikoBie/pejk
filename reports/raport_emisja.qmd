@@ -19,7 +19,8 @@ citation-location: margin
 
 Zajęło mi to moment dłużej niż planowałem, bo się zorientowałem, że był błąd w
 niektórych moich obliczeniach. Niestety emisja była niedoszacowana jeśli chodzi
-o wyjazdy...
+o wyjazdy, a przeszacowana jeśli chodzi o dojazdy i podróże między kampusami.
+Wiem z czego to wynikało i teraz powinno być już w porządku. 
 
 ### Dojazdy na uczelnie
 
@@ -32,13 +33,11 @@ korektą to jest artefakt i bym go nie uwzględniał.
 
 Grupa | Semestr letni | Semestr letni (korekta) | Semestr zimowy | Semestr zimowy (korekta)
 ------|:-------------:|:-----------------------:|:--------------:|:------------:
-Osoby studenckie (plus osoby doktoranckie) | 8047376.54 | | 8493050.71 | 8267621.74
-Nauczyciele i nauczycielki akademickie | 184433.82 | | 183370.98 | 176581.06
-Pozostałe pracownice i pracownicy | 465125.31 | | 458434.91 | 454034.01
+Osoby studenckie (plus osoby doktoranckie) | 7945605.29 | | 8422987.97 | 8250832.36
+Nauczyciele i nauczycielki akademickie | 180182.16 | | 202931.86 | 195591.86
+Pozostałe pracownice i pracownicy | 426699.39 | | 449373.24 | 444379.11
 
-Poprzednio mam wrażenie, że napisałem tutaj głupotę, bo tylko u osób studenckich
-jest tak jak powinno być (razem z podyplomówką), czyli latem mniejsza emisja
-niż zimą.
+No i teraz jest tak jak powinno być dla wszystkich grup!
 
 ### Podróże między kampusami
 
@@ -102,32 +101,5 @@ Nauczyciele i nauczycielki akademickie | Pracownice i pracownicy (nie nauczyciel
 
 ## Podsumowanie
 
-Na razie nie zsumowałem wszystkich wyników, bo zanim to zrobię pewnie musimy
-znaleźć odpowiedzi na parę pytań. Między innymi:
-
-1. Czy jest sens liczyć skorygowane dojazdy na uczelnie? Według mnie dość
-umiarkowany. Po pierwsze, dlatego, że jednak to wszystko opiera się na dość dużym
-przybliżeniu. Poczynając od próby, którą mamy. W żadnym mierze nie jest ona
-reprezentatywna dla tych jednostek ani też grup. Po drugie, dlatego, że nie do
-końca wiem jak należałoby skorygować dojazdy na uczelnie. Pewnie można po prostu
-jeden semestr ludziom, którzy byli na Erasmusie wywalić z obliczeń. Tylko który?
-Poza tym, moim zdaniem pytanie o Erasmusa jest nieprecyzyjne, bo pytamy czy ktoś
-był na Erasmusie w roku kalendarzowym 2024. Co trochę komplikuje sprawę, bo mógł
-być w semestrze letnim 2024 roku, a my pytamy o dojazdy zima i lato tego roku
-akademickiego.
-
-2. Czy na pewno chcemy liczyć, że tygodni w semestrze jest 20?
-
-3. Czy nie powinniśmy każdej podróży na uczelnie liczyć podwójnie? Jednak
-ludzie zazwyczaj wracają z uczelni do domu.
-
-4. Czy powinienem policzyć też Erasmusa dla pracownic i pracowników?
-
-Ogólnie, to są jakieś wyniki, ale ciężko mi powiedzieć na ile one są dobre, a na
-ile nie. Głównie dlatego, że nie wiem jaki powinien być zakres. Oczywiście ja
-sobie napisałem multum jakiś testów jednostkowych, które sprawdzają czy moje
-obliczenia są poprawne, ale tak czy inaczej ciężko mi powiedzieć czy te liczby
-mają sens.
-
-[Tutaj](https://github.com/MikoBie/pejk) znajdziecie repozytorium, w którym jest
-cały kod do liczenia.
+Było parę błędów, które spowodowały, że wyniki się zmieniły. Teraz powinno być
+już w porządku. 

@@ -7,12 +7,14 @@ from pejk.utils import compute_transport_days, compute_emission, weight_absence
 # %%
 ## Prepare data
 df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
+df.loc[:, "P4"] = df.loc[:, "P4"].apply(lambda x: x if x < 8 else 0)
+df.loc[:, "P5"] = df.loc[:, "P5"].apply(lambda x: x if x < 8 else 0)
 
 df.loc[:, "P8"] = (
     df.loc[:, "P8"].map(mappings.variable_value_labels["P8"]).map(EMISSION)
 )
 df.loc[:, "P8b"] = (
-    df.loc[:, "P8b"].map(mappings.variable_value_labels["P8"]).map(EMISSION)
+    df.loc[:, "P8b"].map(mappings.variable_value_labels["P8b"]).map(EMISSION)
 )
 df["students"] = df.loc[:, "P1_1":"P1_5"].sum(axis=1)
 n_students = df.query("students > 0").shape[0]
@@ -54,7 +56,7 @@ students_winter.loc[:, "emission"] = (
     students_winter.loc[:, "P1_1":"P1_5"]
     .max(axis=1)
     .multiply(students_winter.loc[:, "P6"], axis=0)
-    .multiply(students_winter.loc[:, "P8"], axis=0)
+    .multiply(students_winter.loc[:, "P8b"], axis=0)
 )
 
 ## Students Winter emissions
@@ -87,7 +89,7 @@ students_winter_corrected.loc[:, "emission"] = (
         axis=0,
     )
     .multiply(students_winter_corrected.loc[:, "P6"], axis=0)
-    .multiply(students_winter_corrected.loc[:, "P8"], axis=0)
+    .multiply(students_winter_corrected.loc[:, "P8b"], axis=0)
 )
 
 # %%
@@ -117,7 +119,7 @@ teachers_winter.loc[:, "P1_6"] = teachers_winter.apply(
 teachers_winter.loc[:, "emission"] = (
     teachers_winter.loc[:, "P1_6"]
     .multiply(teachers_winter.loc[:, "P6"], axis=0)
-    .multiply(teachers_winter.loc[:, "P8"], axis=0)
+    .multiply(teachers_winter.loc[:, "P8b"], axis=0)
 )
 
 # %%
@@ -149,7 +151,7 @@ teachers_winter_corrected.loc[:, "emission"] = (
         axis=0,
     )
     .multiply(teachers_winter_corrected.loc[:, "P6"], axis=0)
-    .multiply(teachers_winter_corrected.loc[:, "P8"], axis=0)
+    .multiply(teachers_winter_corrected.loc[:, "P8b"], axis=0)
 )
 # %%
 ## Non-teachers Summer emissions
@@ -179,7 +181,7 @@ non_teachers_winter.loc[:, "P1_7"] = non_teachers_winter.apply(
 non_teachers_winter.loc[:, "emission"] = (
     non_teachers_winter.loc[:, "P1_7"]
     .multiply(non_teachers_winter.loc[:, "P6"], axis=0)
-    .multiply(non_teachers_winter.loc[:, "P8"], axis=0)
+    .multiply(non_teachers_winter.loc[:, "P8b"], axis=0)
 )
 # %%
 non_teachers_winter_corrected = df.query("non_teachers > 0").reset_index(drop=True)
@@ -210,7 +212,7 @@ non_teachers_winter_corrected.loc[:, "emission"] = (
         axis=0,
     )
     .multiply(non_teachers_winter_corrected.loc[:, "P6"], axis=0)
-    .multiply(non_teachers_winter_corrected.loc[:, "P8"], axis=0)
+    .multiply(non_teachers_winter_corrected.loc[:, "P8b"], axis=0)
 )
 
 # %%

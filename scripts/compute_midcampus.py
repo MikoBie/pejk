@@ -7,6 +7,8 @@ from pejk.utils import compute_transport_days, compute_emission
 # %%
 ## Prepare data
 df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
+df.loc[:, "P4"] = df.loc[:, "P4"].apply(lambda x: x if x < 8 else 0)
+df.loc[:, "P5"] = df.loc[:, "P5"].apply(lambda x: x if x < 8 else 0)
 
 df.loc[:, "P10"] = (
     df.loc[:, "P10"].map(mappings.variable_value_labels["P10"]).map(EMISSION)

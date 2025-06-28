@@ -7,6 +7,7 @@ from pejk.plots import plot_barhplot, plot_barplot
 
 # %%
 df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
+df = df.query("P4 < 8").query("P5 < 8")
 
 # %%
 ## Popularność kampusów
