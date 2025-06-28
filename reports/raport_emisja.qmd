@@ -102,4 +102,4 @@ Nauczyciele i nauczycielki akademickie | Pracownice i pracownicy (nie nauczyciel
 ## Podsumowanie
 
 Było parę błędów, które spowodowały, że wyniki się zmieniły. Teraz powinno być
-już w porządku. 
+już w porządku.

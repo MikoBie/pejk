@@ -42,7 +42,7 @@ students_summer_means = (
     .map(lambda x: mappings.variable_value_labels["P8"].get(x, x))
 )
 
-students_summer_means.to_excel(EXCEL / "students_summer_means_weighted.xlsx")
+students_summer_means.to_excel(EXCEL / "students_summer_means.xlsx")
 # %%
 students_winter = df.query("students > 0").reset_index(drop=True)
 
@@ -65,7 +65,7 @@ students_winter_means = (
     .map(lambda x: mappings.variable_value_labels["P8b"].get(x, x))
 )
 
-students_winter_means.to_excel(EXCEL / "students_winter_means_weighted.xlsx")
+students_winter_means.to_excel(EXCEL / "students_winter_means.xlsx")
 # %%
 teachers_summer = df.query("teachers > 0").reset_index(drop=True)
 
@@ -88,7 +88,7 @@ teachers_summer_means = (
     .map(lambda x: mappings.variable_value_labels["P8"].get(x, x))
 )
 
-teachers_summer_means.to_excel(EXCEL / "teachers_summer_means_weighted.xlsx")
+teachers_summer_means.to_excel(EXCEL / "teachers_summer_means.xlsx")
 # %%
 teachers_winter = df.query("teachers > 0").reset_index(drop=True)
 
@@ -109,10 +109,13 @@ teachers_winter_means = (
     .sum()
     .reset_index()
     .rename(columns={"P8b": "group", "WAGA": "km"})
-    .map(lambda x: mappings.variable_value_labels["P8b"].get(x, x))
 )
 
-teachers_winter_means.to_excel(EXCEL / "teachers_winter_means_weighted.xlsx")
+teachers_winter_means.loc[:, "group"] = teachers_winter_means.loc[:, "group"].map(
+    lambda x: mappings.variable_value_labels["P8b"].get(x, x)
+)
+
+teachers_winter_means.to_excel(EXCEL / "teachers_winter_means.xlsx")
 # %%
 non_teachers_summer = df.query("non_teachers > 0").reset_index(drop=True)
 
@@ -136,7 +139,7 @@ non_teachers_summer_means = (
     .map(lambda x: mappings.variable_value_labels["P8"].get(x, x))
 )
 
-non_teachers_summer_means.to_excel(EXCEL / "non_teachers_summer_means_weighted.xlsx")
+non_teachers_summer_means.to_excel(EXCEL / "non_teachers_summer_means.xlsx")
 # %%
 non_teachers_winter = df.query("non_teachers > 0").reset_index(drop=True)
 
@@ -160,4 +163,4 @@ non_teachers_winter_means = (
     .map(lambda x: mappings.variable_value_labels["P8b"].get(x, x))
 )
 
-non_teachers_winter_means.to_excel(EXCEL / "non_teachers_winter_means_weighted.xlsx")
+non_teachers_winter_means.to_excel(EXCEL / "non_teachers_winter_means.xlsx")
