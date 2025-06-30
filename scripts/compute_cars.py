@@ -22,7 +22,7 @@ n_teachers = df.query("teachers > 0").shape[0]
 teachers = df.query("teachers > 0").reset_index(drop=True)
 
 teachers["emission"] = (
-    teachers.loc[:, "P1_6"]
+    teachers.loc[:, "WAGA"]
     .multiply(teachers.loc[:, "P28"], axis=0)
     .multiply(teachers.loc[:, "P29"], axis=0)
 )
@@ -31,7 +31,7 @@ teachers["emission"] = (
 non_teachers = df.query("non_teachers > 0").reset_index(drop=True)
 
 non_teachers["emission"] = (
-    non_teachers.loc[:, "P1_7"]
+    non_teachers.loc[:, "WAGA"]
     .multiply(non_teachers.loc[:, "P28"], axis=0)
     .multiply(non_teachers.loc[:, "P29"], axis=0)
 )

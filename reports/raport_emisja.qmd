@@ -97,7 +97,7 @@ poniższej tabeli wyniki.
 
 Nauczyciele i nauczycielki akademickie | Pracownice i pracownicy (nie nauczyciele)
 :------------------------------------:|:----------------------------------------:
-45103.16 | 27027.21
+29689.97 | 20068.47
 
 ## Podsumowanie
 
