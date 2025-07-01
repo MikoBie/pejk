@@ -1,7 +1,7 @@
 # %%
 import pyreadstat
 from pejk import RAW
-from pejk.config import EMISSION, N_STUDENTS
+from pejk.config import EMISSION, N_STUDENTS, N_WEEKENDERS
 from pejk.utils import compute_transport_days, compute_emission
 
 # %%
@@ -71,13 +71,13 @@ students_no_classes.loc[:, "emission"] = (
 n_students_no_classes = students_no_classes.loc[:, "WAGA"].sum()
 # %%
 students_summer_emission = compute_emission(
-    df=students_summer, N_GROUP=N_STUDENTS, n_group=n_students
+    df=students_summer, N_GROUP=N_STUDENTS - N_WEEKENDERS, n_group=n_students
 )
 students_academic_emission = compute_emission(
-    df=students_academic, N_GROUP=N_STUDENTS, n_group=n_students
+    df=students_academic, N_GROUP=N_STUDENTS - N_WEEKENDERS, n_group=n_students
 )
 students_no_classes_emission = compute_emission(
-    df=students_no_classes, N_GROUP=N_STUDENTS, n_group=n_students
+    df=students_no_classes, N_GROUP=N_STUDENTS - N_WEEKENDERS, n_group=n_students
 )
 
 print("Students Summer Internsip", students_summer_emission)

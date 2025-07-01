@@ -2,6 +2,7 @@
 import pyreadstat
 from pejk import RAW, EXCEL
 from pejk.utils import compute_transport_days
+from pejk.config import N_STUDENTS, N_TEACHERS, N_NON_TEACHERS
 
 # %%
 ## Prepare data
@@ -14,11 +15,11 @@ df.loc[:, "P5"] = df.loc[:, "P5"].apply(lambda x: x if x < 8 else 0)
 df.loc[:, "WAGA"] = 1
 
 df["students"] = df.loc[:, "P1_1":"P1_4"].sum(axis=1)
-n_students = df.query("students > 0").shape[0]
+n_students = df.query("students > 0").loc[:, "WAGA"].sum()
 df["non_teachers"] = df.loc[:, "P1_7"]
-n_non_teachers = df.query("non_teachers > 0").shape[0]
+n_non_teachers = df.query("non_teachers > 0").loc[:, "WAGA"].sum()
 df["teachers"] = df.loc[:, "P1_6"]
-n_teachers = df.query("teachers > 0").shape[0]
+n_teachers = df.query("teachers > 0").loc[:, "WAGA"].sum()
 # %%
 students_summer = df.query("students > 0").reset_index(drop=True)
 
@@ -39,7 +40,8 @@ students_summer_means = (
     .sum()
     .reset_index()
     .rename(columns={"P8": "group", "emission": "km"})
-    .map(lambda x: mappings.variable_value_labels["P8"].get(x, x))
+    .assign(km=lambda x: round(x["km"] * N_STUDENTS / n_students, 2))
+    .replace({"group": mappings.variable_value_labels["P8"]})
 )
 
 students_summer_means.to_excel(EXCEL / "students_summer_means.xlsx")
@@ -62,7 +64,8 @@ students_winter_means = (
     .sum()
     .reset_index()
     .rename(columns={"P8b": "group", "WAGA": "km"})
-    .map(lambda x: mappings.variable_value_labels["P8b"].get(x, x))
+    .assign(km=lambda x: round(x["km"] * N_STUDENTS / n_students, 2))
+    .replace({"group": mappings.variable_value_labels["P8b"]})
 )
 
 students_winter_means.to_excel(EXCEL / "students_winter_means.xlsx")
@@ -85,7 +88,8 @@ teachers_summer_means = (
     .sum()
     .reset_index()
     .rename(columns={"P8": "group", "WAGA": "km"})
-    .map(lambda x: mappings.variable_value_labels["P8"].get(x, x))
+    .assign(km=lambda x: round(x["km"] * N_TEACHERS / n_teachers, 2))
+    .replace({"group": mappings.variable_value_labels["P8"]})
 )
 
 teachers_summer_means.to_excel(EXCEL / "teachers_summer_means.xlsx")
@@ -109,10 +113,8 @@ teachers_winter_means = (
     .sum()
     .reset_index()
     .rename(columns={"P8b": "group", "WAGA": "km"})
-)
-
-teachers_winter_means.loc[:, "group"] = teachers_winter_means.loc[:, "group"].map(
-    lambda x: mappings.variable_value_labels["P8b"].get(x, x)
+    .assign(km=lambda x: round(x["km"] * N_TEACHERS / n_teachers, 2))
+    .replace({"group": mappings.variable_value_labels["P8b"]})
 )
 
 teachers_winter_means.to_excel(EXCEL / "teachers_winter_means.xlsx")
@@ -136,7 +138,8 @@ non_teachers_summer_means = (
     .sum()
     .reset_index()
     .rename(columns={"P8": "group", "WAGA": "km"})
-    .map(lambda x: mappings.variable_value_labels["P8"].get(x, x))
+    .assign(km=lambda x: round(x["km"] * N_NON_TEACHERS / n_non_teachers, 2))
+    .replace({"group": mappings.variable_value_labels["P8"]})
 )
 
 non_teachers_summer_means.to_excel(EXCEL / "non_teachers_summer_means.xlsx")
@@ -160,7 +163,8 @@ non_teachers_winter_means = (
     .sum()
     .reset_index()
     .rename(columns={"P8b": "group", "WAGA": "km"})
-    .map(lambda x: mappings.variable_value_labels["P8b"].get(x, x))
+    .assign(km=lambda x: round(x["km"] * N_NON_TEACHERS / n_non_teachers, 2))
+    .replace({"group": mappings.variable_value_labels["P8b"]})
 )
 
 non_teachers_winter_means.to_excel(EXCEL / "non_teachers_winter_means.xlsx")

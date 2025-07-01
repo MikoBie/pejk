@@ -1,5 +1,5 @@
 ---
-title: "Wstępny raport z analiz emisji na UW"
+title: "Wstępny raport z analiz emisji na UW (v3)"
 author: "Mikołaj Biesaga"
 toc: true
 toc-depth: 3
@@ -17,12 +17,17 @@ citation-location: margin
 
 ## Wstęp
 
-## Próba
+Policzyłem całą emisję tak jak dziś rozmawialiśmy uwzględniając wszędzie 
+stosunek wag. Z najważniejszych rzeczy to emisje są dla całego UW, a liczebności
+dla próby. Wartości trochę się zmieniły w stosunku do poprzednich wersji, ale
+mam nadzieję, że to już ostatni raz. Choć szczerze mówiąc dalej mam wątpliwości
+czy to jest na pewno dobrze. No ale to zostwie je sobie na inny czas. 
 
-### Dojazdy na uczelnie
+## Liczenie
 
-Przywróciłem tutaj opis sposobu w jaki liczę emisję, bo jednak tak jak rozmawialiśmy
-wziąłem pod uwagę ważoną liczebność grupy (zmiana jest w ostatnim wzorze).
+Przywróciłem tutaj opis sposobu w jaki liczę emisję, bo jednak tak jak
+rozmawialiśmy wziąłem pod uwagę ważoną liczebność grupy (zmiana jest w ostatnim
+wzorze).
 
 Tak czy inaczej zastosowałem tutaj następujący wzór, żeby policzyć emisję
 pojedynczej osoby dla każdego semestru:
@@ -57,6 +62,10 @@ gdzie:
 - $ng_w$ -- ważona liczebność grupy w próbie (suma wag w grupie);
 - $NG$ -- liczebność grupy na UW.
 
+Dla wszystkich poniższych grup liczyłem emisję (czy kilometry w sposób 
+analogiczny).
+
+### Dojazy na uczelnie
 
 Grupa | Semestr letni | Semestr zimowy | Semestr zimowy (korekta) |
 ------|:-------------:|:--------------:|:------------------------:|
@@ -66,8 +75,6 @@ Pozostałe pracownice i pracownicy | 874 587.14 | 921 060.73 | 910 824.49
 
 ### Podróże między kampusami
 
-Tak samo liczyłem emisję dla podróży między kampusami.
-
 Grupa | Emisja
 ------|:-----:
 Osoby studenckie (+doktoranckie) | 276 492.08
@@ -76,16 +83,19 @@ Pracownicy i pracownice (nie nauczyciele) | 169 689.36
 
 ### Praktyki i staże
 
+Dopiero teraz się zorientowałem, że uwzględniałem tutaj też podyplomówkę, a to
+chyba bez sensu. No bo oni nie robią praktyk ani staży.
+
 Grupa | Liczebność | Liczebność ważona | Emisja
 ------|:----------:|:-----------------:|:------:
-Praktyki w lecie | 76 | 131.13 | 72 659.15
-Praktyki w roku akademickim | 179 | 356.93 | 294 100.83
-Praktyki zamiast zajęć | 28 | 32.73 | 18288.01
-SUMA | 283 | 520.79 | 385047.99
+Praktyki w lecie | 76 | 131.13 | 67457.93
+Praktyki w roku akademickim | 179 | 356.93 | 273 047.96
+Praktyki zamiast zajęć | 28 | 32.73 | 16 978.88
+SUMA | 283 | 520.79 | 357 484.78
 
 ### Obozy i wyjazdy na staże poza Warszawę
 
-Grupa | Liczebność | Lczebność ważona | Emisja
+Grupa | Liczebność | Liczebność ważona | Emisja
 ------|:----------:|:----------------:|:-----:
 Obozy w lecie | 106 | 140.98 | 92 136.41
 Obozy w roku akademickim | 65 | 87.49 | 34 028.63
@@ -94,46 +104,47 @@ SUMA | 312 | 384.05 | 312 457.86
 
 ### Erasmus
 
-Grupa | Liczebność | Emisja
-------|:----------:|:------:
-Erasmus w lecie (n) | 8 |
-Erasmus zamiast zajęć (n) | 74 |
-Emisja | 82 | 409 593.38
+**Osoby studenckie** 
+
+Grupa | Liczebność | Liczebność ważona | Emisja
+------|:----------:|:-----------------:|:-------:
+Erasmus w lecie | 8 | 8.40 | 9 996.34
+Erasmus zamiast zajęć | 74 | 149.5 | 399 597.04
+Suma | 82 | 157.9 | 409 593.38
+
+**Nauczyciele i nauczycielki akademickie**
+
+Grupa | Liczebność | Liczebność ważona | Emisja
+------|:----------:|:-----------------:|:-------:
+Erasmus w lecie | 7 | 2.43 | 6 107.81
+Erasmus w trakcie zajęć | 96 | 26.72 | 55 205.05
+Suma | 103 | 29.15 | 61 312.86
+
+**Pracownice i pracownicy**
+
+Grupa | Liczebność | Liczebność ważona | Emisja
+------|:----------:|:-----------------:|:-------:
+Erasmus w lecie | 4 | 6.2 | 600.9
+Erasmus w trakcie zajęć | 80 | 33.07 | 59 578.02
+Suma | 84 |  39.27 | 60 178.91
 
 ### Samochody służbowe
 
+**Emisja**
+
 Nauczyciele i nauczycielki akademickie | Pracownice i pracownicy (nie nauczyciele)
 :------------------------------------:|:----------------------------------------:
-45103.16 | 27027.21
+101 347.03 | 41 133.47
+
+**Kilometry**
+
+Silnik | Nauczyciele i nauczycielki akademickie | Pracownice i pracownicy (nie nauczyciele)
+-------|:------------------------------------:|:----------------------------------------:
+Benzynowy | 671 068.92 | 236 054.53
+Diesel | 166 673.38 | 82 691.71
+Hybrydowy | 89 648.62 | 7 322.71
 
 ## Podsumowanie
 
-Na razie nie zsumowałem wszystkich wyników, bo zanim to zrobię pewnie musimy
-znaleźć odpowiedzi na parę pytań. Między innymi:
-
-1. Czy jest sens liczyć skorygowane dojazdy na uczelnie? Według mnie dość
-umiarkowany. Po pierwsze, dlatego, że jednak to wszystko opiera się na dość dużym
-przybliżeniu. Poczynając od próby, którą mamy. W żadnym mierze nie jest ona
-reprezentatywna dla tych jednostek ani też grup. Po drugie, dlatego, że nie do
-końca wiem jak należałoby skorygować dojazdy na uczelnie. Pewnie można po prostu
-jeden semestr ludziom, którzy byli na Erasmusie wywalić z obliczeń. Tylko który?
-Poza tym, moim zdaniem pytanie o Erasmusa jest nieprecyzyjne, bo pytamy czy ktoś
-był na Erasmusie w roku kalendarzowym 2024. Co trochę komplikuje sprawę, bo mógł
-być w semestrze letnim 2024 roku, a my pytamy o dojazdy zima i lato tego roku
-akademickiego.
-
-2. Czy na pewno chcemy liczyć, że tygodni w semestrze jest 20?
-
-3. Czy nie powinniśmy każdej podróży na uczelnie liczyć podwójnie? Jednak
-ludzie zazwyczaj wracają z uczelni do domu.
-
-4. Czy powinienem policzyć też Erasmusa dla pracownic i pracowników?
-
-Ogólnie, to są jakieś wyniki, ale ciężko mi powiedzieć na ile one są dobre, a na
-ile nie. Głównie dlatego, że nie wiem jaki powinien być zakres. Oczywiście ja
-sobie napisałem multum jakiś testów jednostkowych, które sprawdzają czy moje
-obliczenia są poprawne, ale tak czy inaczej ciężko mi powiedzieć czy te liczby
-mają sens.
-
-[Tutaj](https://github.com/MikoBie/pejk) znajdziecie repozytorium, w którym jest
-cały kod do liczenia.
+Wydaje mi się, że teraz wszystko jest tutaj policzone poza tymi średnimi kilometrami
+dla UW, które są w Excelach. 
