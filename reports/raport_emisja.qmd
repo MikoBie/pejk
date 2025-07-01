@@ -17,89 +17,123 @@ citation-location: margin
 
 ## Wstęp
 
-Zajęło mi to moment dłużej niż planowałem, bo się zorientowałem, że był błąd w
-niektórych moich obliczeniach. Niestety emisja była niedoszacowana jeśli chodzi
-o wyjazdy, a przeszacowana jeśli chodzi o dojazdy i podróże między kampusami.
-Wiem z czego to wynikało i teraz powinno być już w porządku. 
+## Próba
 
 ### Dojazdy na uczelnie
 
-Co do liczenia korekty to moim zdaniem ona na nic się nie zda bo tak naprawdę
-korekta jest tylko dla semestru zimowego bo tylko semestr zimowy był w 2024 roku.
-Poza tym, jeśli ktoś był na Erasmusie 45 dni i dojeżdżał 45 dni w semestrze 
-zimowym to cała jego emisja zniknie. Mimo że tak naprawdę ma zajęcia tylko 3
-razy w tygodniu, a na Erasmusie był 6 i pół tygodnia. Moim zdaniem wyniki z
-korektą to jest artefakt i bym go nie uwzględniał.
+Przywróciłem tutaj opis sposobu w jaki liczę emisję, bo jednak tak jak rozmawialiśmy
+wziąłem pod uwagę ważoną liczebność grupy (zmiana jest w ostatnim wzorze).
 
-Grupa | Semestr letni | Semestr letni (korekta) | Semestr zimowy | Semestr zimowy (korekta)
-------|:-------------:|:-----------------------:|:--------------:|:------------:
-Osoby studenckie (plus osoby doktoranckie) | 7945605.29 | | 8422987.97 | 8250832.36
-Nauczyciele i nauczycielki akademickie | 180182.16 | | 202931.86 | 195591.86
-Pozostałe pracownice i pracownicy | 426699.39 | | 449373.24 | 444379.11
+Tak czy inaczej zastosowałem tutaj następujący wzór, żeby policzyć emisję
+pojedynczej osoby dla każdego semestru:
 
-No i teraz jest tak jak powinno być dla wszystkich grup!
+$$ie = \#days \times frequency \times distance \times mode\_transport$$
+
+gdzie: 
+
+- $\#days$ to jest liczba dni;
+- $frequency$ -- jeśli osoba bywa rzadziej niż raz w miesiącu to jest to liczba miesięcy, w innym przypadku liczba tygodni;
+- $distance$ -- odległość od miejsca zamieszkania (czy nie powinniśmy liczyć tego podwójnie, bo jednak zazwyczaj ludzie nie tylko jadą na UW ale też z niego wracają?);
+- $mode\_transport$ -- emisja dla najczęściej używanego środka
+transportu.
+
+Na podstawie indywidualnej emisji ($ie$) policzyłem emisję dla
+każdej z grup w próbie w semestrze letnim i zimowym:
+
+$$ge = \sum^{ng}_{i=1}(individual\_emission_{i} \times weight_{i})$$
+
+gdzie:
+
+- $ng$ -- liczebność grupy w próbie;
+- $individual\_emission_{i}$ -- indywidualna emisja dla osoby $i$;
+- $weight_{i}$ -- waga dla osoby $i$.
+
+Stąd, żeby oszacować emisję dla całej grupy na UW policzyłem:
+
+$$GE = group\_emission \times \frac{NG}{ng_w}$$
+
+gdzie:
+
+- $ng_w$ -- ważona liczebność grupy w próbie (suma wag w grupie);
+- $NG$ -- liczebność grupy na UW.
+
+
+Grupa | Semestr letni | Semestr zimowy | Semestr zimowy (korekta) |
+------|:-------------:|:--------------:|:------------------------:|
+Osoby studenckie (plus osoby doktoranckie) | 4 581 683.54 | 4 856 957.27 | 4 757 686.98
+Nauczyciele i nauczycielki akademickie | 615 053.79 | 692 710.14 | 667 654.99
+Pozostałe pracownice i pracownicy | 874 587.14 | 921 060.73 | 910 824.49
 
 ### Podróże między kampusami
 
-Zapomniałem tylko dodać, że tutaj wymnażam wszystko razy dwa no bo są dwa 
-semestry, więc zakładam, że osoby studenckie przemieszczają się między kampusami
-przez 30 tygodni (nie wliczałem tutaj ludzi na podyplomówkach), osoby
-nauczycielskie -- 45, a pracownice i pracownicy -- 48.
+Tak samo liczyłem emisję dla podróży między kampusami.
 
 Grupa | Emisja
 ------|:-----:
-Osoby studenckie (+doktoranckie) | 479495.56
-Nauczyciele i nauczycielki akademickie | 17745.18
-Pracownicy i pracownice (nie nauczyciele) | 82789.17
+Osoby studenckie (+doktoranckie) | 276 492.08
+Nauczyciele i nauczycielki akademickie | 60 573.37
+Pracownicy i pracownice (nie nauczyciele) | 169 689.36
 
 ### Praktyki i staże
 
-Jeśli chodzi o praktyki i staże to zdecydowana większość ludzi robiła je w
-trakcie roku akademickiego poza godzinami zajęć. Emisję liczyłem tak samo jak w
-poprzednich przypadkach. Nie jestem jednak w stanie policzyć emisji dla każdej z
-grup. Mogę to zrobić tylko dla wszystkich razem. Wynika to z faktu, że nie wiem
-jaka jest dla poszczególnej kategorii (rodzaju praktyk) liczebność na całym UW.
-
-Grupa | Liczebność | Emisja
-------|:----------:|:------:
-Praktyki w lecie | 76|
-Praktyki w roku akademickim | 179 |
-Praktyki zamiast zajęć | 28 |
-SUMA | 283 | 600266.16
+Grupa | Liczebność | Liczebność ważona | Emisja
+------|:----------:|:-----------------:|:------:
+Praktyki w lecie | 76 | 131.13 | 72 659.15
+Praktyki w roku akademickim | 179 | 356.93 | 294 100.83
+Praktyki zamiast zajęć | 28 | 32.73 | 18288.01
+SUMA | 283 | 520.79 | 385047.99
 
 ### Obozy i wyjazdy na staże poza Warszawę
 
-Tutaj był błąd dlatego mimo że teraz liczę podróż tylko w jedną stronę emisja
-wzrosła a nie spadła.
-
-Grupa | Liczebność | Emisja
-------|:----------:|:------:
-Obozy w lecie | 106 |
-Obozy w roku akademickim | 65 |
-Obozy zamiast zajęć | 141 |
-SUMA | 312 | 524659.77
+Grupa | Liczebność | Lczebność ważona | Emisja
+------|:----------:|:----------------:|:-----:
+Obozy w lecie | 106 | 140.98 | 92 136.41
+Obozy w roku akademickim | 65 | 87.49 | 34 028.63
+Obozy zamiast zajęć | 141 | 155.58 | 186 292.82
+SUMA | 312 | 384.05 | 312 457.86
 
 ### Erasmus
 
-Tutaj też był błąd dlatego wynik dla osób studenckich jest wyższy niż poprzednio
-mimo że teraz liczę podróż tylko w jedną stronę.
-
-Grupa | Osoby studenckie | Osoby nauczycielskie | Pracownice i pracownicy 
-------|:----------------:|:--------------------:|:-----------------------:
-Erasmus w lecie (n) | 8 | 7 | 4
-Erasmus zamiast zajęć (n) | 74 | 96 | 80
-Emisja | 687763.68 | 17961.82 | 29360.49
+Grupa | Liczebność | Emisja
+------|:----------:|:------:
+Erasmus w lecie (n) | 8 |
+Erasmus zamiast zajęć (n) | 74 |
+Emisja | 82 | 409 593.38
 
 ### Samochody służbowe
 
-Użyłem tutaj tej samej metodologii co w przypadku pozostałych kategorii. W 
-poniższej tabeli wyniki.
-
 Nauczyciele i nauczycielki akademickie | Pracownice i pracownicy (nie nauczyciele)
 :------------------------------------:|:----------------------------------------:
-29689.97 | 20068.47
+45103.16 | 27027.21
 
 ## Podsumowanie
 
-Było parę błędów, które spowodowały, że wyniki się zmieniły. Teraz powinno być
-już w porządku.
+Na razie nie zsumowałem wszystkich wyników, bo zanim to zrobię pewnie musimy
+znaleźć odpowiedzi na parę pytań. Między innymi:
+
+1. Czy jest sens liczyć skorygowane dojazdy na uczelnie? Według mnie dość
+umiarkowany. Po pierwsze, dlatego, że jednak to wszystko opiera się na dość dużym
+przybliżeniu. Poczynając od próby, którą mamy. W żadnym mierze nie jest ona
+reprezentatywna dla tych jednostek ani też grup. Po drugie, dlatego, że nie do
+końca wiem jak należałoby skorygować dojazdy na uczelnie. Pewnie można po prostu
+jeden semestr ludziom, którzy byli na Erasmusie wywalić z obliczeń. Tylko który?
+Poza tym, moim zdaniem pytanie o Erasmusa jest nieprecyzyjne, bo pytamy czy ktoś
+był na Erasmusie w roku kalendarzowym 2024. Co trochę komplikuje sprawę, bo mógł
+być w semestrze letnim 2024 roku, a my pytamy o dojazdy zima i lato tego roku
+akademickiego.
+
+2. Czy na pewno chcemy liczyć, że tygodni w semestrze jest 20?
+
+3. Czy nie powinniśmy każdej podróży na uczelnie liczyć podwójnie? Jednak
+ludzie zazwyczaj wracają z uczelni do domu.
+
+4. Czy powinienem policzyć też Erasmusa dla pracownic i pracowników?
+
+Ogólnie, to są jakieś wyniki, ale ciężko mi powiedzieć na ile one są dobre, a na
+ile nie. Głównie dlatego, że nie wiem jaki powinien być zakres. Oczywiście ja
+sobie napisałem multum jakiś testów jednostkowych, które sprawdzają czy moje
+obliczenia są poprawne, ale tak czy inaczej ciężko mi powiedzieć czy te liczby
+mają sens.
+
+[Tutaj](https://github.com/MikoBie/pejk) znajdziecie repozytorium, w którym jest
+cały kod do liczenia.

@@ -13,11 +13,11 @@ df.loc[:, "P23"] = (
     df.loc[:, "P23"].map(mappings.variable_value_labels["P23"]).map(EMISSION)
 )
 df["students"] = df.loc[:, "P1_1":"P1_4"].sum(axis=1)
-n_students = df.query("students > 0").shape[0]
+n_students = df.query("students > 0").loc[:, "WAGA"].sum()
 df["non_teachers"] = df.loc[:, "P1_7"]
-n_non_teachers = df.query("non_teachers > 0").shape[0]
+n_non_teachers = df.query("non_teachers > 0").loc[:, "WAGA"].sum()
 df["teachers"] = df.loc[:, "P1_6"]
-n_teachers = df.query("teachers > 0").shape[0]
+n_teachers = df.query("teachers > 0").loc[:, "WAGA"].sum()
 
 # %%
 students_summer = df.query("students > 0").query("P25 == 1.0").reset_index(drop=True)

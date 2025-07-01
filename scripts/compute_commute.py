@@ -17,11 +17,11 @@ df.loc[:, "P8b"] = (
     df.loc[:, "P8b"].map(mappings.variable_value_labels["P8b"]).map(EMISSION)
 )
 df["students"] = df.loc[:, "P1_1":"P1_5"].sum(axis=1)
-n_students = df.query("students > 0").shape[0]
+n_students = df.query("students > 0").loc[:, "WAGA"].sum()
 df["non_teachers"] = df.loc[:, "P1_7"]
-n_non_teachers = df.query("non_teachers > 0").shape[0]
+n_non_teachers = df.query("non_teachers > 0").loc[:, "WAGA"].sum()
 df["teachers"] = df.loc[:, "P1_6"]
-n_teachers = df.query("teachers > 0").shape[0]
+n_teachers = df.query("teachers > 0").loc[:, "WAGA"].sum()
 
 # %%
 ## Students Summer emissions
@@ -256,7 +256,9 @@ non_teachers_summer_emission = compute_emission(
 )
 print("Non-teachers Summer Emission:", non_teachers_summer_emission)
 non_teachers_winter_emission = compute_emission(
-    df=non_teachers_winter, N_GROUP=N_NON_TEACHERS, n_group=n_non_teachers
+    df=non_teachers_winter,
+    N_GROUP=N_NON_TEACHERS,
+    n_group=n_non_teachers,
 )
 print("Non-teachers Winter Emission:", non_teachers_winter_emission)
 

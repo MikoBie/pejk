@@ -20,9 +20,9 @@ teachers_means = (
     teachers.groupby("P29")[["P28", "teachers", "WAGA"]]
     .sum()
     .reset_index()
-    .rename(columns={"P29": "group", "P28": "km", "teachers" : "n", "WAGA" : "suma_wag"})
-    .assign(mean = lambda x: x["km"] / x["n"])
-    .replace({ "group" : mappings.variable_value_labels["P29"] })
+    .rename(columns={"P29": "group", "P28": "km", "teachers": "n", "WAGA": "suma_wag"})
+    .assign(mean=lambda x: x["km"] / x["n"])
+    .replace({"group": mappings.variable_value_labels["P29"]})
 )
 
 teachers_means.to_excel(EXCEL / "teachers-cars.xlsx")
@@ -33,10 +33,11 @@ non_teachers_means = (
     non_teachers.groupby("P29")[["P28", "non_teachers", "WAGA"]]
     .sum()
     .reset_index()
-    .rename(columns={"P29": "group", "P28": "km"})
-    .rename(columns={"P29": "group", "P28": "km", "non_teachers" : "n", "WAGA" : "suma_wag"})
-    .assign(mean = lambda x: x["km"] / x["n"])
-    .replace({ "group" : mappings.variable_value_labels["P29"] })
+    .rename(
+        columns={"P29": "group", "P28": "km", "non_teachers": "n", "WAGA": "suma_wag"}
+    )
+    .assign(mean=lambda x: x["km"] / x["n"])
+    .replace({"group": mappings.variable_value_labels["P29"]})
 )
 
 non_teachers_means.to_excel(EXCEL / "non-teachers-cars.xlsx")

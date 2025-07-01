@@ -15,11 +15,11 @@ df.loc[:, "P10"] = (
 )
 
 df["students"] = df.loc[:, "P1_1":"P1_5"].sum(axis=1)
-n_students = df.query("students > 0").shape[0]
+n_students = df.query("students > 0").loc[:, "WAGA"].sum()
 df["non_teachers"] = df.loc[:, "P1_7"]
-n_non_teachers = df.query("non_teachers > 0").shape[0]
+n_non_teachers = df.query("non_teachers > 0").loc[:, "WAGA"].sum()
 df["teachers"] = df.loc[:, "P1_6"]
-n_teachers = df.query("teachers > 0").shape[0]
+n_teachers = df.query("teachers > 0").loc[:, "WAGA"].sum()
 # %%
 students = df.query("students > 0").reset_index(drop=True)
 students.loc[:, "P1_1":"P1_4"] = students.apply(

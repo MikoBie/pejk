@@ -15,9 +15,9 @@ df.loc[:, "P29"] = (
     df.loc[:, "P29"].map(mappings.variable_value_labels["P29"]).map(EMISSION)
 )
 df["non_teachers"] = df.loc[:, "P1_7"]
-n_non_teachers = df.query("non_teachers > 0").shape[0]
+n_non_teachers = df.query("non_teachers > 0").loc[:, "WAGA"].sum()
 df["teachers"] = df.loc[:, "P1_6"]
-n_teachers = df.query("teachers > 0").shape[0]
+n_teachers = df.query("teachers > 0").loc[:, "WAGA"].sum()
 # %%
 teachers = df.query("teachers > 0").reset_index(drop=True)
 
