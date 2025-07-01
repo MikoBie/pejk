@@ -17,11 +17,12 @@ n_teachers = df.query("teachers > 0").shape[0]
 teachers = df.query("teachers > 0").reset_index(drop=True)
 
 teachers_means = (
-    teachers.groupby("P29")["P28"]
+    teachers.groupby("P29")[["P28", "teachers", "WAGA"]]
     .sum()
     .reset_index()
-    .rename(columns={"P29": "group", "P28": "km"})
-    .map(lambda x: mappings.variable_value_labels["P29"].get(x, x))
+    .rename(columns={"P29": "group", "P28": "km", "teachers" : "n", "WAGA" : "suma_wag"})
+    .assign(mean = lambda x: x["km"] / x["n"])
+    .replace({ "group" : mappings.variable_value_labels["P29"] })
 )
 
 teachers_means.to_excel(EXCEL / "teachers-cars.xlsx")
@@ -29,11 +30,13 @@ teachers_means.to_excel(EXCEL / "teachers-cars.xlsx")
 non_teachers = df.query("non_teachers > 0").reset_index(drop=True)
 
 non_teachers_means = (
-    non_teachers.groupby("P29")["P28"]
+    non_teachers.groupby("P29")[["P28", "non_teachers", "WAGA"]]
     .sum()
     .reset_index()
     .rename(columns={"P29": "group", "P28": "km"})
-    .map(lambda x: mappings.variable_value_labels["P29"].get(x, x))
+    .rename(columns={"P29": "group", "P28": "km", "non_teachers" : "n", "WAGA" : "suma_wag"})
+    .assign(mean = lambda x: x["km"] / x["n"])
+    .replace({ "group" : mappings.variable_value_labels["P29"] })
 )
 
 non_teachers_means.to_excel(EXCEL / "non-teachers-cars.xlsx")
