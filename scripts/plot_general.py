@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from pejk.utils import prepare_data_rowise, prepare_data_columnswise
 from pejk.plots import plot_barhplot, plot_barplot
 
-## plt.rc("figure.suptitle", horizontalalignment = "center")
 # %%
 df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
 
@@ -174,3 +173,5 @@ fig.tight_layout()
 fig.savefig(PNG / "phds.png")
 if __name__ != "__main__":
     plt.show()
+
+# %%
