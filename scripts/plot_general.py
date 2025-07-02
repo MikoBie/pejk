@@ -13,7 +13,11 @@ df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
 groups = prepare_data_columnswise(
     df=df, f="P1_1", t="P1_7", mapping=mappings.column_names_to_labels
 )
-groups.to_excel(EXCEL / "groups.xlsx")
+(
+    groups.rename(columns={"group": "Grupa", "count": "Liczebność"}).to_excel(
+        EXCEL / "groups.xlsx"
+    )
+)
 fig = plot_barhplot(df=groups, x="group", y="count", padding=1)
 fig.suptitle(
     "Liczebności w poszczególnych grupach", ha="center", fontsize=12, weight="bold"
@@ -33,7 +37,11 @@ groups = (
     .reset_index()
     .rename(columns={"index": "group"})
 )
-groups.to_excel(EXCEL / "roles-distribution.xlsx")
+(
+    groups.rename(columns={"group": "Liczba ról", "count": "Liczebność"}).to_excel(
+        EXCEL / "roles-distribution.xlsx"
+    )
+)
 fig = plot_barplot(df=groups, x="group", y="count", padding=1)
 
 fig.suptitle(
@@ -53,7 +61,11 @@ if __name__ != "__main__":
 studies = prepare_data_columnswise(
     df=df, f="P33a_1", t="P33a_27", mapping=mappings.column_names_to_labels
 )
-studies.to_excel(EXCEL / "bachelor.xlsx")
+(
+    studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
+        EXCEL / "bachelor.xlsx"
+    )
+)
 
 fig = plot_barhplot(studies, x="group", y="count", padding=1)
 fig.suptitle(
@@ -73,7 +85,11 @@ studies = prepare_data_columnswise(
     df=df, f="P33b_1", t="P33b_27", mapping=mappings.column_names_to_labels
 )
 
-studies.to_excel(EXCEL / "masters.xlsx")
+(
+    studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
+        EXCEL / "masters.xlsx"
+    )
+)
 fig = plot_barhplot(df=studies, x="group", y="count", padding=1)
 fig.suptitle(
     "Jednostki osób studenckich studiów II stopnia",
@@ -91,7 +107,11 @@ studies = prepare_data_columnswise(
     df=df, f="P33c_1", t="P33c_5", mapping=mappings.column_names_to_labels
 )
 
-studies.to_excel(EXCEL / "masters-five-years.xlsx")
+(
+    studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
+        EXCEL / "masters-five-years.xlsx"
+    )
+)
 
 fig = plot_barhplot(df=studies, x="group", y="count", padding=1)
 fig.suptitle(
@@ -111,7 +131,11 @@ studies = prepare_data_columnswise(
     df=df, f="P33e_1", t="P33e_18", mapping=mappings.column_names_to_labels
 ).query("count > 0")
 
-studies.to_excel(EXCEL / "postgraduate.xlsx")
+(
+    studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
+        EXCEL / "postgraduate.xlsx"
+    )
+)
 
 fig = plot_barhplot(df=studies, x="group", y="count", padding=1)
 fig.suptitle(
@@ -129,7 +153,12 @@ if __name__ != "__main__":
 studies = prepare_data_columnswise(
     df=df, f="P33f_1", t="P33f_18", mapping=mappings.column_names_to_labels
 )
-studies.to_excel(EXCEL / "teachers.xlsx")
+
+(
+    studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
+        EXCEL / "teachers.xlsx"
+    )
+)
 
 fig = plot_barhplot(df=studies, x="group", y="count", padding=1)
 fig.suptitle(
@@ -150,7 +179,12 @@ studies = prepare_data_columnswise(
 )
 
 studies = studies.groupby("group").sum().reset_index().sort_values("count")
-studies.to_excel(EXCEL / "non-teachers.xlsx")
+
+(
+    studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
+        EXCEL / "non-teachers.xlsx"
+    )
+)
 
 fig = plot_barhplot(studies, x="group", y="count", padding=1)
 fig.suptitle(
@@ -166,7 +200,13 @@ if __name__ != "__main__":
 # %%
 ## Szkoły doktorskie
 phds = prepare_data_rowise(df=df, key="P33d", mapping=mappings.variable_value_labels)
-studies.to_excel(EXCEL / "phds.xlsx")
+
+(
+    studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
+        EXCEL / "phds.xlsx"
+    )
+)
+
 fig = plot_barhplot(df=phds, x="group", y="count", padding=1)
 fig.suptitle("Szkoły Doktorskie", ha="center", fontsize=12, weight="bold")
 fig.tight_layout()
