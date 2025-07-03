@@ -7,6 +7,7 @@ from pejk.utils import (
     prepare_data_columnswise,
 )
 from pejk.plots import plot_barhplot
+import pandas as pd
 
 # %%
 df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
@@ -16,12 +17,17 @@ df["non_teachers"] = df.loc[:, "P1_7"]
 df["teachers"] = df.loc[:, "P1_6"]
 
 students = df.query("students > 0").reset_index(drop=True)
+students.loc[:, "role"] = "student"
 teachers = df.query("teachers > 0").reset_index(drop=True)
+teachers.loc[:, "role"] = "teacher"
 non_teachers = df.query("non_teachers > 0").reset_index(drop=True)
+non_teachers.loc[:, "role"] = "non_teacher"
+
 PERCENT = 100
 
+ndf = pd.concat([students, teachers, non_teachers])
 # %%
-## All
+## Summer means of transport
 lst = df.loc[:, "P7_1":"P7_14"].columns
 n = df.query(" or ".join([f"{item} == {item}" for item in lst])).loc[:, "WAGA"].sum()
 transport = prepare_data_columnswise(
@@ -46,17 +52,9 @@ fig.tight_layout()
 fig.savefig(PNG / "per_transport-summer.png")
 if __name__ != "__main__":
     plt.show()
-(
-    transport.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_transport-summer.xlsx")
-)
-
+summer_means_transport = transport.set_index("group")
 # %%
+## Winter means of transport
 lst = df.loc[:, "P7b_1":"P7b_14"].columns
 n = df.query(" or ".join([f"{item} == {item}" for item in lst])).loc[:, "WAGA"].sum()
 transport = prepare_data_columnswise(
@@ -82,16 +80,9 @@ fig.savefig(PNG / "per_transport-winter.png")
 if __name__ != "__main__":
     plt.show()
 
-(
-    transport.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_transport-winter.xlsx")
-)
+winter_means_transport = transport.set_index("group")
 # %%
+## Summer dominant means of transport
 lst = ["P8"]
 n = df.query(" or ".join([f"{item} == {item}" for item in lst])).loc[:, "WAGA"].sum()
 transport_dominant = prepare_data_rowise(
@@ -117,16 +108,9 @@ fig.savefig(PNG / "per_transport-dominant-summer.png")
 if __name__ != "__main__":
     plt.show()
 
-(
-    transport_dominant.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_transport-dominat-summer.xlsx")
-)
+summer_dominant_means_transport = transport_dominant.set_index("group")
 # %%
+## Winter dominant means of transport
 lst = ["P8b"]
 n = df.query(" or ".join([f"{item} == {item}" for item in lst])).loc[:, "WAGA"].sum()
 transport_dominant = prepare_data_rowise(
@@ -152,509 +136,203 @@ fig.savefig(PNG / "per_transport-dominant-winter.png")
 if __name__ != "__main__":
     plt.show()
 
+winter_dominant_means_transport = transport_dominant.set_index("group")
+## %
+for _, role in ndf.groupby("role"):
+    ## SUMMER MEANS OF TRANSPORT
+
+    lst = role.loc[:, "P7_1":"P7_14"].columns
+    n = (
+        role.query(" or ".join([f"{item} == {item}" for item in lst]))
+        .loc[:, "WAGA"]
+        .sum()
+    )
+    transport = prepare_data_columnswise(
+        df=role,
+        f="P7_1",
+        t="P7_14",
+        mapping=mappings.column_names_to_labels,
+        weight=True,
+    ).assign(count_population=lambda x: x["count"] * PERCENT / n)
+
+    fig = plot_barhplot(
+        df=transport,
+        x="group",
+        y="count_population",
+        padding=1,
+        labels=False,
+        percenteges=True,
+    )
+    fig.suptitle(
+        "Rodzaje środków lokomocji (semestr letni)",
+        ha="center",
+        fontsize=12,
+        weight="bold",
+    )
+    fig.tight_layout()
+    fig.savefig(PNG / f"per_{_}_transport-summer.png")
+    if __name__ != "__main__":
+        plt.show()
+    summer_means_transport = summer_means_transport.join(
+        transport.set_index("group"), rsuffix=f" {_}"
+    )
+
+    ## WINTER MEANS OF TRANSPORT
+
+    lst = role.loc[:, "P7b_1":"P7b_14"].columns
+    n = (
+        role.query(" or ".join([f"{item} == {item}" for item in lst]))
+        .loc[:, "WAGA"]
+        .sum()
+    )
+    transport = prepare_data_columnswise(
+        df=role,
+        f="P7b_1",
+        t="P7b_14",
+        mapping=mappings.column_names_to_labels,
+        weight=True,
+    ).assign(count_population=lambda x: x["count"] * PERCENT / n)
+
+    fig = plot_barhplot(
+        df=transport,
+        x="group",
+        y="count_population",
+        padding=1,
+        labels=False,
+        percenteges=True,
+    )
+    fig.suptitle(
+        "Rodzaje środków lokomocji (semestr zimowy)",
+        ha="center",
+        fontsize=12,
+        weight="bold",
+    )
+    fig.tight_layout()
+    fig.savefig(PNG / f"per_{_}_transport-winter.png")
+    if __name__ != "__main__":
+        plt.show()
+
+    winter_means_transport = winter_means_transport.join(
+        transport.set_index("group"), rsuffix=f" {_}"
+    )
+
+    ## SUMMER DOMINANT MEANS OF TRANSPORT
+
+    lst = ["P8"]
+    n = (
+        role.query(" or ".join([f"{item} == {item}" for item in lst]))
+        .loc[:, "WAGA"]
+        .sum()
+    )
+    transport_dominant = prepare_data_rowise(
+        df=role, key="P8", mapping=mappings.variable_value_labels, weight=True
+    ).assign(count_population=lambda x: x["count"] * PERCENT / n)
+
+    fig = plot_barhplot(
+        df=transport_dominant,
+        x="group",
+        y="count_population",
+        padding=1,
+        labels=False,
+        percenteges=True,
+    )
+    fig.suptitle(
+        "Główny środek lokomocji (semestr letni)",
+        ha="center",
+        fontsize=12,
+        weight="bold",
+    )
+    fig.tight_layout()
+    fig.savefig(PNG / f"per_{_}_transport-dominant-summer.png")
+    if __name__ != "__main__":
+        plt.show()
+    summer_dominant_means_transport = summer_dominant_means_transport.join(
+        transport_dominant.set_index("group"), rsuffix=f" {_}"
+    )
+
+    ## WINTER DOMINANT MEANS OF TRANSPORT
+
+    lst = ["P8b"]
+    n = (
+        role.query(" or ".join([f"{item} == {item}" for item in lst]))
+        .loc[:, "WAGA"]
+        .sum()
+    )
+    transport_dominant = prepare_data_rowise(
+        df=role, key="P8b", mapping=mappings.variable_value_labels, weight=True
+    ).assign(count_population=lambda x: x["count"] * PERCENT / n)
+
+    fig = plot_barhplot(
+        df=transport_dominant,
+        x="group",
+        y="count_population",
+        padding=1,
+        labels=False,
+        percenteges=True,
+    )
+    fig.suptitle(
+        "Główny środek lokomocji (semestr zimowy)",
+        ha="center",
+        fontsize=12,
+        weight="bold",
+    )
+    fig.tight_layout()
+    fig.savefig(PNG / "per_{_}_transport-dominant-winter.png")
+    if __name__ != "__main__":
+        plt.show()
+
+    winter_dominant_means_transport = winter_dominant_means_transport.join(
+        transport_dominant.set_index("group"), rsuffix=f" {_}"
+    )
+# %%
+## SUMMER MEANS OF TRANSPORT
 (
-    transport_dominant.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_transport-dominat-winter.xlsx")
+    summer_means_transport.rename(
+        columns=lambda x: x.replace("count_population", "Procent").replace(
+            "count", "Liczebność ważona"
+        )
+    )
+    .reset_index()
+    .rename(columns={"group": "Środek transportu"})
+    .fillna(0)
+    .to_excel(EXCEL / "P7.xlsx", index=False)
 )
 # %%
-## Students
-lst = students.loc[:, "P7_1":"P7_14"].columns
-n = (
-    students.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport = prepare_data_columnswise(
-    df=students,
-    f="P7_1",
-    t="P7_14",
-    mapping=mappings.column_names_to_labels,
-    weight=True,
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Rodzaje środków lokomocji (semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_students-transport-summer.png")
-if __name__ != "__main__":
-    plt.show()
+## WINTER MEANS OF TRANSPORT
 (
-    transport.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_students-transport-summer.xlsx")
-)
-
-# %%
-lst = students.loc[:, "P7b_1":"P7b_14"].columns
-n = (
-    students.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport = prepare_data_columnswise(
-    df=students,
-    f="P7b_1",
-    t="P7b_14",
-    mapping=mappings.column_names_to_labels,
-    weight=True,
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Rodzaje środków lokomocji (semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_students-transport-winter.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    transport.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_students-transport-winter.xlsx")
+    winter_means_transport.rename(
+        columns=lambda x: x.replace("count_population", "Procent").replace(
+            "count", "Liczebność ważona"
+        )
+    )
+    .reset_index()
+    .rename(columns={"group": "Środek transportu"})
+    .fillna(0)
+    .to_excel(EXCEL / "P7b.xlsx", index=False)
 )
 # %%
-lst = ["P8"]
-n = (
-    students.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport_dominant = prepare_data_rowise(
-    df=students, key="P8", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport_dominant,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Główny środek lokomocji (semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_students-transport-dominant-summer.png")
-if __name__ != "__main__":
-    plt.show()
-
+## SUMMER DOMINANT MEANS OF TRANSPORT
 (
-    transport_dominant.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_students-transport-dominat-summer.xlsx")
+    summer_dominant_means_transport.rename(
+        columns=lambda x: x.replace("count_population", "Procent").replace(
+            "count", "Liczebność ważona"
+        )
+    )
+    .reset_index()
+    .rename(columns={"group": "Środek transportu"})
+    .fillna(0)
+    .to_excel(EXCEL / "P8.xlsx", index=False)
 )
 # %%
-lst = ["P8b"]
-n = (
-    students.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport_dominant = prepare_data_rowise(
-    df=students, key="P8b", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport_dominant,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Główny środek lokomocji (semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_students_transport-dominant-winter.png")
-if __name__ != "__main__":
-    plt.show()
-
+## WINTER DOMINANT MEANS OF TRANSPORT
 (
-    transport_dominant.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_students-transport-dominat-winter.xlsx")
+    winter_dominant_means_transport.rename(
+        columns=lambda x: x.replace("count_population", "Procent").replace(
+            "count", "Liczebność ważona"
+        )
+    )
+    .reset_index()
+    .rename(columns={"group": "Środek transportu"})
+    .fillna(0)
+    .to_excel(EXCEL / "P8b.xlsx", index=False)
 )
-# %%
-## Teachers
-lst = teachers.loc[:, "P7_1":"P7_14"].columns
-n = (
-    teachers.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport = prepare_data_columnswise(
-    df=teachers,
-    f="P7_1",
-    t="P7_14",
-    mapping=mappings.column_names_to_labels,
-    weight=True,
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Rodzaje środków lokomocji (semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_teachers-transport-summer.png")
-if __name__ != "__main__":
-    plt.show()
-(
-    transport.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_teachers-transport-summer.xlsx")
-)
-
-# %%
-lst = teachers.loc[:, "P7b_1":"P7b_14"].columns
-n = (
-    teachers.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport = prepare_data_columnswise(
-    df=teachers,
-    f="P7b_1",
-    t="P7b_14",
-    mapping=mappings.column_names_to_labels,
-    weight=True,
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Rodzaje środków lokomocji (semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_teachers-transport-winter.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    transport.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_teachers-transport-winter.xlsx")
-)
-# %%
-lst = ["P8"]
-n = (
-    teachers.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport_dominant = prepare_data_rowise(
-    df=teachers, key="P8", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport_dominant,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Główny środek lokomocji (semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_teachers-transport-dominant-summer.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    transport_dominant.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_teachers-transport-dominat-summer.xlsx")
-)
-# %%
-lst = ["P8b"]
-n = (
-    teachers.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport_dominant = prepare_data_rowise(
-    df=teachers, key="P8b", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport_dominant,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Główny środek lokomocji (semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_teachers_transport-dominant-winter.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    transport_dominant.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_teachers-transport-dominat-winter.xlsx")
-)
-# %%
-## Teachers
-lst = non_teachers.loc[:, "P7_1":"P7_14"].columns
-n = (
-    non_teachers.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport = prepare_data_columnswise(
-    df=non_teachers,
-    f="P7_1",
-    t="P7_14",
-    mapping=mappings.column_names_to_labels,
-    weight=True,
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Rodzaje środków lokomocji (semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_non_teachers-transport-summer.png")
-if __name__ != "__main__":
-    plt.show()
-(
-    transport.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_non_teachers-transport-summer.xlsx")
-)
-
-# %%
-lst = non_teachers.loc[:, "P7b_1":"P7b_14"].columns
-n = (
-    non_teachers.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport = prepare_data_columnswise(
-    df=non_teachers,
-    f="P7b_1",
-    t="P7b_14",
-    mapping=mappings.column_names_to_labels,
-    weight=True,
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Rodzaje środków lokomocji (semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_non_teachers-transport-winter.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    transport.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_non_teachers-transport-winter.xlsx")
-)
-# %%
-lst = ["P8"]
-n = (
-    non_teachers.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport_dominant = prepare_data_rowise(
-    df=non_teachers, key="P8", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport_dominant,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Główny środek lokomocji (semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_non_teachers-transport-dominant-summer.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    transport_dominant.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_non_teachers-transport-dominat-summer.xlsx")
-)
-# %%
-lst = ["P8b"]
-n = (
-    non_teachers.query(" or ".join([f"{item} == {item}" for item in lst]))
-    .loc[:, "WAGA"]
-    .sum()
-)
-transport_dominant = prepare_data_rowise(
-    df=non_teachers, key="P8b", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=transport_dominant,
-    x="group",
-    y="count_population",
-    padding=1,
-    labels=False,
-    percenteges=True,
-)
-fig.suptitle(
-    "Główny środek lokomocji (semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_non_teachers_transport-dominant-winter.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    transport_dominant.rename(
-        columns={
-            "group": "Rodzaj transportu",
-            "count": "Liczebność ważona (próba)",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_non_teachers-transport-dominat-winter.xlsx")
-)
-
-# %%
