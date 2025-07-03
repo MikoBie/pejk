@@ -4,6 +4,7 @@ from pejk import RAW, PNG, EXCEL
 import matplotlib.pyplot as plt
 from pejk.utils import prepare_data_rowise
 from pejk.plots import plot_barhplot
+import pandas as pd
 
 # %%
 df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
@@ -12,11 +13,17 @@ df["non_teachers"] = df.loc[:, "P1_7"]
 df["teachers"] = df.loc[:, "P1_6"]
 
 students = df.query("students > 0").reset_index(drop=True)
+students.loc[:, "role"] = "student"
 teachers = df.query("teachers > 0").reset_index(drop=True)
+teachers.loc[:, "role"] = "teacher"
 non_teachers = df.query("non_teachers > 0").reset_index(drop=True)
+non_teachers.loc[:, "role"] = "non_teacher"
+
 PERCENT = 100
+
+ndf = pd.concat([students, teachers, non_teachers])
 # %%
-## All
+## Liczba dnia na UW
 n = df.query("P4 == P4 or P4b == P4b").loc[:, "WAGA"].sum()
 presence = prepare_data_rowise(
     df=df, key="P4", mapping=mappings.variable_value_labels, weight=True
@@ -37,17 +44,9 @@ fig.savefig(PNG / "per_weekly-presence-summer.png")
 if __name__ != "__main__":
     plt.show()
 
-(
-    presence.rename(
-        columns={
-            "group": "Liczba dni w tygodniu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_weekly-presence-summer.xlsx")
-)
+presence_summer_weekly = presence.set_index("group")
 # %%
-n = df.query("P4b == P4b or P4 == P4").loc[:, "WAGA"].sum()
+n = df.query("P4b == P4b").loc[:, "WAGA"].sum()
 presence_monthly = prepare_data_rowise(
     df=df, key="P4b", mapping=mappings.variable_value_labels, weight=True
 ).assign(count_population=lambda x: x["count"] * PERCENT / n)
@@ -66,15 +65,8 @@ fig.tight_layout()
 fig.savefig(PNG / "per_monthly-presence-summer.png")
 if __name__ != "__main__":
     plt.show()
-(
-    presence_monthly.rename(
-        columns={
-            "group": "Liczba dni w miesiącu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_monthly-presence-summer.xlsx")
-)
+
+presence_summer_monthly = presence_monthly.set_index("group")
 
 # %%
 n = df.query("P5 == P5 or P5b == P5b").loc[:, "WAGA"].sum()
@@ -96,18 +88,9 @@ fig.savefig(PNG / "per_weekly-presence-winter.png")
 if __name__ != "__main__":
     plt.show()
 
-(
-    presence.rename(
-        columns={
-            "group": "Liczba dni w tygodniu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_weekly-presence-winter.xlsx")
-)
-
+presence_winter_weekly = presence.set_index("group")
 # %%
-n = df.query("P5b == P5b or P5 == P5").loc[:, "WAGA"].sum()
+n = df.query("P5b == P5b").loc[:, "WAGA"].sum()
 presence_monthly = prepare_data_rowise(
     df=df, key="P5b", mapping=mappings.variable_value_labels, weight=True
 ).assign(count_population=lambda x: x["count"] * PERCENT / n)
@@ -127,375 +110,169 @@ fig.savefig(PNG / "per_monthly-presence-winter.png")
 if __name__ != "__main__":
     plt.show()
 
-(
-    presence_monthly.rename(
-        columns={
-            "group": "Liczba dni w miesiącu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_monthly-presence-winter.xlsx")
-)
-# %%
-## STUDENTS
-n = students.query("P4 == P4 or P4b == P4b").loc[:, "WAGA"].sum()
-presence = prepare_data_rowise(
-    df=students, key="P4", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-
-fig = plot_barhplot(
-    df=presence, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w tygodniu; semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_students-weekly-presence-summer.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    presence.rename(
-        columns={
-            "group": "Liczba dni w tygodniu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_students-weekly-presence-summer.xlsx")
-)
-# %%
-n = students.query("P4b == P4b or P4 == P4").loc[:, "WAGA"].sum()
-presence_monthly = prepare_data_rowise(
-    df=students, key="P4b", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-
-fig = plot_barhplot(
-    df=presence_monthly, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w miesiącu; semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_students-monthly-presence-summer.png")
-if __name__ != "__main__":
-    plt.show()
-(
-    presence_monthly.rename(
-        columns={
-            "group": "Liczba dni w miesiącu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_students-monthly-presence-summer.xlsx")
-)
+presence_winter_monthly = presence_monthly.set_index("group")
 
 # %%
-n = students.query("P5 == P5 or P5b == P5b").loc[:, "WAGA"].sum()
-presence = prepare_data_rowise(
-    df=students, key="P5", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
+for _, role in ndf.groupby("role"):
+    ## PRESENCE SUMMER WEEKLY
 
-fig = plot_barhplot(
-    df=presence, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w tygodniu; semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_students-weekly-presence-winter.png")
-if __name__ != "__main__":
-    plt.show()
+    n = role.query("P4 == P4 or P4b == P4b").loc[:, "WAGA"].sum()
+    presence = prepare_data_rowise(
+        df=role, key="P4", mapping=mappings.variable_value_labels, weight=True
+    ).assign(count_population=lambda x: x["count"] * PERCENT / n)
 
-(
-    presence.rename(
-        columns={
-            "group": "Liczba dni w tygodniu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_students-weekly-presence-winter.xlsx")
-)
+    fig = plot_barhplot(
+        df=presence, x="group", y="count_population", labels=False, percenteges=True
+    )
+    fig.suptitle(
+        "Rozkład liczby dni na uniwersytecie (w tygodniu; semestr letni)",
+        ha="center",
+        fontsize=12,
+        weight="bold",
+    )
+    fig.tight_layout()
+    fig.savefig(PNG / f"per_{_}_weekly-presence-summer.png")
+    if __name__ != "__main__":
+        plt.show()
+
+    presence_summer_weekly = presence_summer_weekly.join(
+        presence.set_index("group"), rsuffix=f" {_}"
+    )
+
+    ## PRESENCE SUMMER MONTHLY
+
+    n = role.query("P4b == P4b").loc[:, "WAGA"].sum()
+    presence_monthly = prepare_data_rowise(
+        df=role, key="P4b", mapping=mappings.variable_value_labels, weight=True
+    ).assign(count_population=lambda x: x["count"] * PERCENT / n)
+
+    fig = plot_barhplot(
+        df=presence_monthly,
+        x="group",
+        y="count_population",
+        labels=False,
+        percenteges=True,
+    )
+    fig.suptitle(
+        "Rozkład liczby dni na uniwersytecie (w miesiącu; semestr letni)",
+        ha="center",
+        fontsize=12,
+        weight="bold",
+    )
+    fig.tight_layout()
+    fig.savefig(PNG / f"per_{_}_monthly-presence-summer.png")
+    if __name__ != "__main__":
+        plt.show()
+
+    presence_summer_monthly = presence_summer_monthly.join(
+        presence_monthly.set_index("group"), rsuffix=f" {_}"
+    )
+
+    ## PRESENCE WINTER WEEKLY
+
+    n = role.query("P5 == P5 or P5b == P5b").loc[:, "WAGA"].sum()
+    presence = prepare_data_rowise(
+        df=role, key="P5", mapping=mappings.variable_value_labels, weight=True
+    ).assign(count_population=lambda x: x["count"] * PERCENT / n)
+
+    fig = plot_barhplot(
+        df=presence, x="group", y="count_population", labels=False, percenteges=True
+    )
+    fig.suptitle(
+        "Rozkład liczby dni na uniwersytecie (w tygodniu; semestr zimowy)",
+        ha="center",
+        fontsize=12,
+        weight="bold",
+    )
+    fig.tight_layout()
+    fig.savefig(PNG / "per_weekly-presence-winter.png")
+    if __name__ != "__main__":
+        plt.show()
+
+    presence_winter_weekly = presence_winter_weekly.join(
+        presence.set_index("group"), rsuffix=f" {_}"
+    )
+
+    ## PRESENCE WINTER MONTHLY
+
+    n = role.query("P5b == P5b").loc[:, "WAGA"].sum()
+    presence_monthly = prepare_data_rowise(
+        df=role, key="P5b", mapping=mappings.variable_value_labels, weight=True
+    ).assign(count_population=lambda x: x["count"] * PERCENT / n)
+
+    fig = plot_barhplot(
+        df=presence_monthly,
+        x="group",
+        y="count_population",
+        labels=False,
+        percenteges=True,
+    )
+    fig.suptitle(
+        "Rozkład liczby dni na uniwersytecie (w miesiącu; semestr zimowy)",
+        ha="center",
+        fontsize=12,
+        weight="bold",
+    )
+    fig.tight_layout()
+    fig.savefig(PNG / "per_monthly-presence-winter.png")
+    if __name__ != "__main__":
+        plt.show()
+
+    presence_winter_monthly = presence_winter_monthly.join(
+        presence_monthly.set_index("group"), rsuffix=f" {_}"
+    )
 
 # %%
-n = students.query("P5b == P5b or P5 == P5").loc[:, "WAGA"].sum()
-presence_monthly = prepare_data_rowise(
-    df=students, key="P5b", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-
-fig = plot_barhplot(
-    df=presence_monthly, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w miesiącu; semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_students-monthly-presence-winter.png")
-if __name__ != "__main__":
-    plt.show()
-
+## PRESENCE SUMMER WEEKLY
 (
-    presence_monthly.rename(
-        columns={
-            "group": "Liczba dni w miesiącu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_students-monthly-presence-winter.xlsx")
+    presence_summer_weekly.rename(
+        columns=lambda x: x.replace("count_population", "Procent").replace(
+            "count", "Liczebność ważona"
+        )
+    )
+    .reset_index()
+    .rename(columns={"group": "Liczba dni na UW"})
+    .fillna(0)
+    .to_excel(EXCEL / "P4.xlsx")
 )
 # %%
-## TEACHERS
-n = teachers.query("P4 == P4 or P4b == P4b").loc[:, "WAGA"].sum()
-presence = prepare_data_rowise(
-    df=teachers, key="P4", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-
-fig = plot_barhplot(
-    df=presence, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w tygodniu; semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_teachers-weekly-presence-summer.png")
-if __name__ != "__main__":
-    plt.show()
-
+## PRESENCE SUMMER MONTHLY
 (
-    presence.rename(
-        columns={
-            "group": "Liczba dni w tygodniu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_teachers-weekly-presence-summer.xlsx")
+    presence_summer_monthly.rename(
+        columns=lambda x: x.replace("count_population", "Procent").replace(
+            "count", "Liczebność ważona"
+        )
+    )
+    .reset_index()
+    .rename(columns={"group": "Liczba dni na UW"})
+    .fillna(0)
+    .to_excel(EXCEL / "P4b.xlsx")
 )
 # %%
-n = teachers.query("P4b == P4b or P4 == P4").loc[:, "WAGA"].sum()
-presence_monthly = prepare_data_rowise(
-    df=teachers, key="P4b", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-
-fig = plot_barhplot(
-    df=presence_monthly, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w miesiącu; semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_teachers-monthly-presence-summer.png")
-if __name__ != "__main__":
-    plt.show()
+## PRESENCE WINTER WEEKLY
 (
-    presence_monthly.rename(
-        columns={
-            "group": "Liczba dni w miesiącu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_teachers-monthly-presence-summer.xlsx")
+    presence_winter_weekly.rename(
+        columns=lambda x: x.replace("count_population", "Procent").replace(
+            "count", "Liczebność ważona"
+        )
+    )
+    .reset_index()
+    .rename(columns={"group": "Liczba dni na UW"})
+    .fillna(0)
+    .to_excel(EXCEL / "P5.xlsx")
+)
+# %%
+## PRESENCE WINTER MONTHLY
+(
+    presence_winter_monthly.rename(
+        columns=lambda x: x.replace("count_population", "Procent").replace(
+            "count", "Liczebność ważona"
+        )
+    )
+    .reset_index()
+    .rename(columns={"group": "Liczba dni na UW"})
+    .fillna(0)
+    .to_excel(EXCEL / "P5b.xlsx")
 )
 
 # %%
-n = teachers.query("P5 == P5 or P5b == P5b").loc[:, "WAGA"].sum()
-presence = prepare_data_rowise(
-    df=teachers, key="P5", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=presence, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w tygodniu; semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_teachers-weekly-presence-winter.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    presence.rename(
-        columns={
-            "group": "Liczba dni w tygodniu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_teachers-weekly-presence-winter.xlsx")
-)
-
-# %%
-n = teachers.query("P5b == P5b or P5 == P5").loc[:, "WAGA"].sum()
-presence_monthly = prepare_data_rowise(
-    df=teachers, key="P5b", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-
-fig = plot_barhplot(
-    df=presence_monthly, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w miesiącu; semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_teachers-monthly-presence-winter.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    presence_monthly.rename(
-        columns={
-            "group": "Liczba dni w miesiącu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_teachers-monthly-presence-winter.xlsx")
-)
-# %%
-## NON-TEACHERS
-n = non_teachers.query("P4 == P4 or P4b == P4b").loc[:, "WAGA"].sum()
-presence = prepare_data_rowise(
-    df=non_teachers, key="P4", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-
-fig = plot_barhplot(
-    df=presence, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w tygodniu; semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_non_teachers-weekly-presence-summer.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    presence.rename(
-        columns={
-            "group": "Liczba dni w tygodniu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_non_teachers-weekly-presence-summer.xlsx")
-)
-# %%
-n = non_teachers.query("P4b == P4b or P4 == P4").loc[:, "WAGA"].sum()
-presence_monthly = prepare_data_rowise(
-    df=non_teachers, key="P4b", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-
-fig = plot_barhplot(
-    df=presence_monthly, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w miesiącu; semestr letni)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_non_teachers-monthly-presence-summer.png")
-if __name__ != "__main__":
-    plt.show()
-(
-    presence_monthly.rename(
-        columns={
-            "group": "Liczba dni w miesiącu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_non_teachers-monthly-presence-summer.xlsx")
-)
-
-# %%
-n = non_teachers.query("P5 == P5 or P5b == P5b").loc[:, "WAGA"].sum()
-presence = prepare_data_rowise(
-    df=non_teachers, key="P5", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-fig = plot_barhplot(
-    df=presence, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w tygodniu; semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_non_teachers-weekly-presence-winter.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    presence.rename(
-        columns={
-            "group": "Liczba dni w tygodniu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_non_teachers-weekly-presence-winter.xlsx")
-)
-
-# %%
-n = non_teachers.query("P5b == P5b or P5 == P5").loc[:, "WAGA"].sum()
-presence_monthly = prepare_data_rowise(
-    df=non_teachers, key="P5b", mapping=mappings.variable_value_labels, weight=True
-).assign(count_population=lambda x: x["count"] * PERCENT / n)
-
-
-fig = plot_barhplot(
-    df=presence_monthly, x="group", y="count_population", labels=False, percenteges=True
-)
-fig.suptitle(
-    "Rozkład liczby dni na uniwersytecie (w miesiącu; semestr zimowy)",
-    ha="center",
-    fontsize=12,
-    weight="bold",
-)
-fig.tight_layout()
-fig.savefig(PNG / "per_non_teachers-monthly-presence-winter.png")
-if __name__ != "__main__":
-    plt.show()
-
-(
-    presence_monthly.rename(
-        columns={
-            "group": "Liczba dni w miesiącu",
-            "count": "Liczebność ważona",
-            "count_population": "Procent",
-        }
-    ).to_excel(EXCEL / "per_non_teachers-monthly-presence-winter.xlsx")
-)
