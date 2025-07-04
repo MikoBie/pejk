@@ -13,6 +13,7 @@ dependencies:
     - ipykernel
     - pyreadstat
     - openpyxl
+    - xlsxwriter
     - pytest
     - jupyter
     - --editable .

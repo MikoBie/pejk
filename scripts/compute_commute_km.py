@@ -11,8 +11,6 @@ df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
 ## semester
 df.loc[:, "P4"] = df.loc[:, "P4"].apply(lambda x: x if x < 8 else 0)
 df.loc[:, "P5"] = df.loc[:, "P5"].apply(lambda x: x if x < 8 else 0)
-## Set weight for all as 1 because we can't really weight the data here
-df.loc[:, "WAGA"] = 1
 
 df["students"] = df.loc[:, "P1_1":"P1_4"].sum(axis=1)
 n_students = df.query("students > 0").loc[:, "WAGA"].sum()
