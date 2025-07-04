@@ -2,7 +2,7 @@
 import pyreadstat
 from pejk import RAW, PNG, EXCEL
 import matplotlib.pyplot as plt
-from pejk.utils import prepare_data_rowise, compute_transport_days
+from pejk.utils import prepare_data_rowise
 from pejk.plots import plot_barhplot
 import pandas as pd
 from pejk.config import N_ALL, N_STUDENTS, N_TEACHERS, N_NON_TEACHERS
@@ -85,12 +85,9 @@ midcampus_dominant_transport = transport_dominant.set_index("group")
 midcampus_distance = df.query("P9 == P9").reset_index(drop=True)
 n = midcampus_distance.loc[:, "WAGA"].sum()
 
-midcampus_distance.loc[:, "km"] = midcampus_distance.apply(
-    lambda x: compute_transport_days(
-        x=x, f="WAGA", t="WAGA", days="P9", times_semester=(1, 1)
-    ),
-    axis=1,
-).multiply(midcampus_distance.loc[:, "P11"], axis=0)
+midcampus_distance.loc[:, "km"] = midcampus_distance.loc[:, "WAGA"].multiply(
+    midcampus_distance.loc[:, "P11"], axis=0
+)
 
 midcampus_distance_means = (
     midcampus_distance.groupby("P10")[["km", "WAGA"]]
@@ -116,7 +113,7 @@ fig.suptitle(
     weight="bold",
 )
 fig.tight_layout()
-fig.savefig(PNG / "midcampus-mean-distance-weekly.png")
+fig.savefig(PNG / "midcampus-trip-distance.png")
 if __name__ != "__main__":
     plt.show()
 
@@ -185,12 +182,9 @@ for _, role in ndf.groupby("role"):
     midcampus_distance.loc[:, "WAGA"] = 1
     n = midcampus_distance.loc[:, "WAGA"].sum()
 
-    midcampus_distance.loc[:, "km"] = midcampus_distance.apply(
-        lambda x: compute_transport_days(
-            x=x, f="WAGA", t="WAGA", days="P9", times_semester=(1, 1)
-        ),
-        axis=1,
-    ).multiply(midcampus_distance.loc[:, "P11"], axis=0)
+    midcampus_distance.loc[:, "km"] = midcampus_distance.loc[:, "WAGA"].multiply(
+        midcampus_distance.loc[:, "P11"], axis=0
+    )
 
     midcampus_distance_means = (
         midcampus_distance.groupby("P10")[["km", "WAGA"]]
@@ -216,7 +210,7 @@ for _, role in ndf.groupby("role"):
         weight="bold",
     )
     fig.tight_layout()
-    fig.savefig(PNG / f"{_}_midcampus-distance-weekly.png")
+    fig.savefig(PNG / f"{_}_midcampus-trip-distance.png")
     if __name__ != "__main__":
         plt.show()
 
@@ -255,8 +249,8 @@ for _, role in ndf.groupby("role"):
 ## MIDCAMPUS TRIPS DOMINANT MEANS OF TRANSPORT DISTANCE
 (
     midcampus_distance_km.rename(
-        columns=lambda x: x.replace("km_mean", "Średnia tygodniowa liczba kilometrów")
-        .replace("km", "Ważone tygodniowe km w próbie")
+        columns=lambda x: x.replace("km_mean", "Średnia długość jednej podróży")
+        .replace("km", "Suma długości podróży w próbie")
         .replace("WAGA", "Ważona liczebność")
     )
     .reset_index()
