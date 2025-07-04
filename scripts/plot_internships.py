@@ -11,11 +11,10 @@ import pandas as pd
 # %%
 df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
 
-df["students"] = df.loc[:, "P1_1":"P1_5"].sum(axis=1)
+df["students"] = df.loc[:, "P1_1":"P1_4"].sum(axis=1)
 df["bachelors"] = df.loc[:, "P1_1"]
 df["masters"] = df.loc[:, "P1_2"]
 df["five_years"] = df.loc[:, "P1_3"]
-df["postgraduate"] = df.loc[:, "P1_5"]
 df["phds"] = df.loc[:, "P1_4"]
 
 students = df.query("students > 0").reset_index(drop=True)

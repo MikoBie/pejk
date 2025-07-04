@@ -193,7 +193,7 @@ for _, role in ndf.groupby("role"):
     .reset_index()
     .rename(columns={"group": "Kampus"})
     .fillna(0)
-    .to_excel(EXCEL / "P2.xlsx")
+    .to_excel(EXCEL / "P2.xlsx", index=False)
 )
 # %%
 ## DISTRIBUTION OF VISITED CAMPUSES
@@ -206,7 +206,7 @@ for _, role in ndf.groupby("role"):
     .reset_index()
     .rename(columns={"group": "Liczba kampusów"})
     .fillna(0)
-    .to_excel(EXCEL / "P2_distribution.xlsx")
+    .to_excel(EXCEL / "P2_distribution.xlsx", index=False)
 )
 
 # %%
@@ -220,6 +220,6 @@ for _, role in ndf.groupby("role"):
     .reset_index()
     .rename(columns={"group": "Kampus"})
     .fillna(0)
-    .to_excel(EXCEL / "P3.xlsx")
+    .to_excel(EXCEL / "P3.xlsx", index=False)
 )
 # %%

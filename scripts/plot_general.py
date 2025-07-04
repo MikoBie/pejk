@@ -15,7 +15,7 @@ groups = prepare_data_columnswise(
 )
 (
     groups.rename(columns={"group": "Grupa", "count": "Liczebność"}).to_excel(
-        EXCEL / "groups.xlsx"
+        EXCEL / "groups.xlsx", index=False
     )
 )
 fig = plot_barhplot(df=groups, x="group", y="count", padding=1)
@@ -39,7 +39,7 @@ groups = (
 )
 (
     groups.rename(columns={"group": "Liczba ról", "count": "Liczebność"}).to_excel(
-        EXCEL / "roles-distribution.xlsx"
+        EXCEL / "roles-distribution.xlsx", index=False
     )
 )
 fig = plot_barplot(df=groups, x="group", y="count", padding=1)
@@ -63,7 +63,7 @@ studies = prepare_data_columnswise(
 )
 (
     studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
-        EXCEL / "bachelor.xlsx"
+        EXCEL / "bachelor.xlsx", index=False
     )
 )
 
@@ -87,7 +87,7 @@ studies = prepare_data_columnswise(
 
 (
     studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
-        EXCEL / "masters.xlsx"
+        EXCEL / "masters.xlsx", index=False
     )
 )
 fig = plot_barhplot(df=studies, x="group", y="count", padding=1)
@@ -109,7 +109,7 @@ studies = prepare_data_columnswise(
 
 (
     studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
-        EXCEL / "masters-five-years.xlsx"
+        EXCEL / "masters-five-years.xlsx", index=False
     )
 )
 
@@ -133,7 +133,7 @@ studies = prepare_data_columnswise(
 
 (
     studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
-        EXCEL / "postgraduate.xlsx"
+        EXCEL / "postgraduate.xlsx", index=False
     )
 )
 
@@ -156,7 +156,7 @@ studies = prepare_data_columnswise(
 
 (
     studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
-        EXCEL / "teachers.xlsx"
+        EXCEL / "teachers.xlsx", index=False
     )
 )
 
@@ -182,7 +182,7 @@ studies = studies.groupby("group").sum().reset_index().sort_values("count")
 
 (
     studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
-        EXCEL / "non-teachers.xlsx"
+        EXCEL / "non-teachers.xlsx", index=False
     )
 )
 
@@ -203,7 +203,7 @@ phds = prepare_data_rowise(df=df, key="P33d", mapping=mappings.variable_value_la
 
 (
     studies.rename(columns={"group": "Jednostka", "count": "Liczebność"}).to_excel(
-        EXCEL / "phds.xlsx"
+        EXCEL / "phds.xlsx", index=False
     )
 )
 

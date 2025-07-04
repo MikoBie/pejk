@@ -233,7 +233,7 @@ for _, role in ndf.groupby("role"):
     .reset_index()
     .rename(columns={"group": "Liczba dni na UW"})
     .fillna(0)
-    .to_excel(EXCEL / "P4.xlsx")
+    .to_excel(EXCEL / "P4.xlsx", index=False)
 )
 # %%
 ## PRESENCE SUMMER MONTHLY
@@ -246,7 +246,7 @@ for _, role in ndf.groupby("role"):
     .reset_index()
     .rename(columns={"group": "Liczba dni na UW"})
     .fillna(0)
-    .to_excel(EXCEL / "P4b.xlsx")
+    .to_excel(EXCEL / "P4b.xlsx", index=False)
 )
 # %%
 ## PRESENCE WINTER WEEKLY
@@ -259,7 +259,7 @@ for _, role in ndf.groupby("role"):
     .reset_index()
     .rename(columns={"group": "Liczba dni na UW"})
     .fillna(0)
-    .to_excel(EXCEL / "P5.xlsx")
+    .to_excel(EXCEL / "P5.xlsx", index=False)
 )
 # %%
 ## PRESENCE WINTER MONTHLY
@@ -272,7 +272,7 @@ for _, role in ndf.groupby("role"):
     .reset_index()
     .rename(columns={"group": "Liczba dni na UW"})
     .fillna(0)
-    .to_excel(EXCEL / "P5b.xlsx")
+    .to_excel(EXCEL / "P5b.xlsx", index=False)
 )
 
 # %%
