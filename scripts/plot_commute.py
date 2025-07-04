@@ -56,7 +56,7 @@ fig = plot_barhplot(
     percenteges=False,
 )
 fig.suptitle(
-    "Średni tygodniowy dystans dojazdów",
+    "Średni dystans jednego dojazdu (lato)",
     ha="center",
     fontsize=12,
     weight="bold",
@@ -94,7 +94,7 @@ fig = plot_barhplot(
     percenteges=False,
 )
 fig.suptitle(
-    "Średni tygodniowy dystans dojazdów",
+    "Średni dystans jednego dojazdu (zima)",
     ha="center",
     fontsize=12,
     weight="bold",
@@ -133,7 +133,7 @@ for _, role in ndf.groupby("role"):
         percenteges=False,
     )
     fig.suptitle(
-        "Średni tygodniowy dystans dojazdów",
+        "Średni dystans jednego dojazdu (lato)",
         ha="center",
         fontsize=12,
         weight="bold",
@@ -173,7 +173,7 @@ for _, role in ndf.groupby("role"):
         percenteges=False,
     )
     fig.suptitle(
-        "Średni tygodniowy dystans dojazdów",
+        "Średni dystans jednego dojazdu (zima)",
         ha="center",
         fontsize=12,
         weight="bold",

@@ -107,7 +107,7 @@ fig = plot_barhplot(
     percenteges=False,
 )
 fig.suptitle(
-    "Tygodniowy dystans pomiędzy kampusami",
+    "Średni dystans jednej podróży między kampusami",
     ha="center",
     fontsize=12,
     weight="bold",
@@ -204,7 +204,7 @@ for _, role in ndf.groupby("role"):
         percenteges=False,
     )
     fig.suptitle(
-        "Tygodniowy dystans pomiędzy kampusami",
+        "Średni dystans jednej podróży pomiędzy kampusami",
         ha="center",
         fontsize=12,
         weight="bold",
