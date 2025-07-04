@@ -277,7 +277,7 @@ for _, role in ndf.groupby("role"):
         weight="bold",
     )
     fig.tight_layout()
-    fig.savefig(PNG / "per_{_}_transport-dominant-winter.png")
+    fig.savefig(PNG / f"per_{_}_transport-dominant-winter.png")
     if __name__ != "__main__":
         plt.show()
 

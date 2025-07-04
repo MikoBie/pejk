@@ -185,7 +185,7 @@ for _, role in ndf.groupby("role"):
         weight="bold",
     )
     fig.tight_layout()
-    fig.savefig(PNG / "per_weekly-presence-winter.png")
+    fig.savefig(PNG / f"per_{_}_weekly-presence-winter.png")
     if __name__ != "__main__":
         plt.show()
 
@@ -214,7 +214,7 @@ for _, role in ndf.groupby("role"):
         weight="bold",
     )
     fig.tight_layout()
-    fig.savefig(PNG / "per_monthly-presence-winter.png")
+    fig.savefig(PNG / f"per_{_}_monthly-presence-winter.png")
     if __name__ != "__main__":
         plt.show()
 
