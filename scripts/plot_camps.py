@@ -71,7 +71,7 @@ n = (
     .sum()
 )
 camps = prepare_data_rowise(
-    df=students, key="P17", mapping=mappings.variable_value_labels, weight=True
+    df=students, key="P20", mapping=mappings.variable_value_labels, weight=True
 ).assign(count_population=lambda x: x["count"] * PERCENT / n)
 
 fig = plot_barhplot(
