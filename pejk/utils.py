@@ -32,11 +32,16 @@ def rename_column(key: str, mapping: dict) -> str:
     -------
         a string behind "-" of the label.
     """
-    return mapping[key].split(" - ")[-1]
+    return mapping[key].split("? - ")[-1]
 
 
 def prepare_data_columnswise(
-    df: pd.DataFrame, f: str, t: str, mapping: dict, weight: bool = False
+    df: pd.DataFrame,
+    f: str,
+    t: str,
+    mapping: dict,
+    weight: bool = False,
+    abbrevations: bool = True,
 ) -> pd.DataFrame:
     """Prepares data frame to compute frequencies.
 
@@ -72,12 +77,13 @@ def prepare_data_columnswise(
         .rename(columns={"index": "group", 0: "count"})
         .sort_values("count")
     )
-    df["group"] = df["group"].map(
-        lambda x: JEDNOSTKI.get(strip_string(x), strip_string(x))
-    )
-    df["group"] = df["group"].apply(
-        lambda x: "\n".join(wrap(x, 30)) if isinstance(x, str) else x
-    )
+    if abbrevations:
+        df["group"] = df["group"].map(
+            lambda x: JEDNOSTKI.get(strip_string(x), strip_string(x))
+        )
+        df["group"] = df["group"].apply(
+            lambda x: "\n".join(wrap(x, 30)) if isinstance(x, str) else x
+        )
 
     return df
 

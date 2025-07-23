@@ -57,7 +57,11 @@ if __name__ != "__main__":
 # %%
 ## Studia pierwszego stopnia
 studies = prepare_data_columnswise(
-    df=df, f="P33a_1", t="P33a_27", mapping=mappings.column_names_to_labels
+    df=df,
+    f="P33a_1",
+    t="P33a_27",
+    mapping=mappings.column_names_to_labels,
+    abbrevations=False,
 )
 
 fig = plot_barhplot(studies, x="group", y="count", padding=1)
@@ -72,13 +76,15 @@ fig.savefig(PNG / "bachelor.png")
 if __name__ != "__main__":
     plt.show()
 
-studies_all = studies.rename(columns={"group": "group bachelors"}).set_index(
-    "group bachelors"
-)
+studies_all = studies.rename(columns={"count": "count bachelors"}).set_index("group")
 # %%
 ## Studia drugiego stopnia
 studies = prepare_data_columnswise(
-    df=df, f="P33b_1", t="P33b_27", mapping=mappings.column_names_to_labels
+    df=df,
+    f="P33b_1",
+    t="P33b_27",
+    mapping=mappings.column_names_to_labels,
+    abbrevations=False,
 )
 
 fig = plot_barhplot(df=studies, x="group", y="count", padding=1)
@@ -99,7 +105,11 @@ studies_all = studies_all.join(
 # %%
 ## Studia jednolite
 studies = prepare_data_columnswise(
-    df=df, f="P33c_1", t="P33c_5", mapping=mappings.column_names_to_labels
+    df=df,
+    f="P33c_1",
+    t="P33c_5",
+    mapping=mappings.column_names_to_labels,
+    abbrevations=False,
 )
 
 
@@ -121,7 +131,11 @@ studies_all = studies_all.join(
 # %%
 ## Studia podyplomowe
 studies = prepare_data_columnswise(
-    df=df, f="P33e_1", t="P33e_18", mapping=mappings.column_names_to_labels
+    df=df,
+    f="P33e_1",
+    t="P33e_18",
+    mapping=mappings.column_names_to_labels,
+    abbrevations=False,
 ).query("count > 0")
 
 fig = plot_barhplot(df=studies, x="group", y="count", padding=1)
@@ -142,7 +156,11 @@ studies_all = studies_all.join(
 # %%
 ## Nauczyciele i nauczycielki akademiccy
 studies = prepare_data_columnswise(
-    df=df, f="P33f_1", t="P33f_18", mapping=mappings.column_names_to_labels
+    df=df,
+    f="P33f_1",
+    t="P33f_18",
+    mapping=mappings.column_names_to_labels,
+    abbrevations=False,
 )
 
 fig = plot_barhplot(df=studies, x="group", y="count", padding=1)
@@ -163,7 +181,11 @@ studies_all = studies_all.join(
 # %%
 ## Praconicy i pracownice
 studies = prepare_data_columnswise(
-    df=df, f="P33g_1", t="P33g_45", mapping=mappings.column_names_to_labels
+    df=df,
+    f="P33g_1",
+    t="P33g_45",
+    mapping=mappings.column_names_to_labels,
+    abbrevations=False,
 )
 
 studies = studies.groupby("group").sum().reset_index().sort_values("count")
@@ -209,3 +231,5 @@ studies_all = studies_all.join(phds.set_index("group"), how="outer", rsuffix=" p
     .fillna(0)
     .to_excel(EXCEL / "P1.xlsx", index=False)
 )
+
+# %%
