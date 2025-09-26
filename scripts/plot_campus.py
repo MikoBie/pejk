@@ -13,6 +13,10 @@ df = df.query("P4 < 8").query("P5 < 8")
 df["students"] = df.loc[:, "P1_1":"P1_5"].sum(axis=1)
 df["non_teachers"] = df.loc[:, "P1_7"]
 df["teachers"] = df.loc[:, "P1_6"]
+df["bachelors"] = df.loc[:, "P1_1"]
+df["masters"] = df.loc[:, "P1_2"]
+df["five_years"] = df.loc[:, "P1_3"]
+df["phds"] = df.loc[:, "P1_4"]
 
 students = df.query("students > 0").reset_index(drop=True)
 students.loc[:, "role"] = "student"
@@ -20,10 +24,21 @@ teachers = df.query("teachers > 0").reset_index(drop=True)
 teachers.loc[:, "role"] = "teacher"
 non_teachers = df.query("non_teachers > 0").reset_index(drop=True)
 non_teachers.loc[:, "role"] = "non_teacher"
+bachelors = df.query("bachelors > 0").reset_index(drop=True)
+bachelors.loc[:, "role"] = "bachelors"
+masters = df.query("masters > 0").reset_index(drop=True)
+masters.loc[:, "role"] = "masters"
+five_years = df.query("five_years > 0").reset_index(drop=True)
+five_years.loc[:, "role"] = "five_years"
+phds = df.query("phds > 0").reset_index(drop=True)
+phds.loc[:, "role"] = "phds"
+
+
+ndf = pd.concat(
+    [students, bachelors, masters, five_years, phds, teachers, non_teachers]
+)
 
 PERCENT = 100
-
-ndf = pd.concat([students, teachers, non_teachers])
 
 # %%
 ## Popularność kampusów

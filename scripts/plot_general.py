@@ -61,7 +61,7 @@ studies = prepare_data_columnswise(
     f="P33a_1",
     t="P33a_27",
     mapping=mappings.column_names_to_labels,
-    abbrevations=False,
+    abbrevations=True,
 )
 
 fig = plot_barhplot(studies, x="group", y="count", padding=1)
@@ -84,7 +84,7 @@ studies = prepare_data_columnswise(
     f="P33b_1",
     t="P33b_27",
     mapping=mappings.column_names_to_labels,
-    abbrevations=False,
+    abbrevations=True,
 )
 
 fig = plot_barhplot(df=studies, x="group", y="count", padding=1)
@@ -109,7 +109,7 @@ studies = prepare_data_columnswise(
     f="P33c_1",
     t="P33c_5",
     mapping=mappings.column_names_to_labels,
-    abbrevations=False,
+    abbrevations=True,
 )
 
 
@@ -135,7 +135,7 @@ studies = prepare_data_columnswise(
     f="P33e_1",
     t="P33e_18",
     mapping=mappings.column_names_to_labels,
-    abbrevations=False,
+    abbrevations=True,
 ).query("count > 0")
 
 fig = plot_barhplot(df=studies, x="group", y="count", padding=1)
@@ -160,7 +160,7 @@ studies = prepare_data_columnswise(
     f="P33f_1",
     t="P33f_18",
     mapping=mappings.column_names_to_labels,
-    abbrevations=False,
+    abbrevations=True,
 )
 
 fig = plot_barhplot(df=studies, x="group", y="count", padding=1)
@@ -185,7 +185,7 @@ studies = prepare_data_columnswise(
     f="P33g_1",
     t="P33g_45",
     mapping=mappings.column_names_to_labels,
-    abbrevations=False,
+    abbrevations=True,
 )
 
 studies = studies.groupby("group").sum().reset_index().sort_values("count")

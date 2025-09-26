@@ -32,7 +32,7 @@ def rename_column(key: str, mapping: dict) -> str:
     -------
         a string behind "-" of the label.
     """
-    return mapping[key].split("? - ")[-1]
+    return mapping[key].split(" - ")[-1]
 
 
 def prepare_data_columnswise(
