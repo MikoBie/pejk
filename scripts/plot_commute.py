@@ -17,6 +17,14 @@ from pejk.config import (
 
 # %%
 df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
+df["P2"] = df.apply(lambda x: x.filter(regex=r"P2_\d+").sum(), axis=1)
+df["P2"] = df.apply(
+    lambda x: x.loc["P2_1":"P2_12"][x.loc["P2_1":"P2_12"] == 1].index[0].split("_")[-1]
+    if x["P2"] == 1
+    else None,
+    axis=1,
+).astype(float)
+df["P3"] = df.apply(lambda x: x["P2"] if x["P3"] != x["P3"] else x["P3"], axis=1)
 df["students"] = df.loc[:, "P1_1":"P1_5"].sum(axis=1)
 df["non_teachers"] = df.loc[:, "P1_7"]
 df["teachers"] = df.loc[:, "P1_6"]
