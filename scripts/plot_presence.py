@@ -9,6 +9,14 @@ import re
 
 # %%
 df, mappings = pyreadstat.read_sav(RAW / "raw_data.sav")
+df["P2"] = df.apply(lambda x: x.filter(regex=r"P2_\d+").sum(), axis=1)
+df["P2"] = df.apply(
+    lambda x: x.loc["P2_1":"P2_12"][x.loc["P2_1":"P2_12"] == 1].index[0].split("_")[-1]
+    if x["P2"] == 1
+    else None,
+    axis=1,
+).astype(float)
+df["P3"] = df.apply(lambda x: x["P2"] if x["P3"] != x["P3"] else x["P3"], axis=1)
 df["students"] = df.loc[:, "P1_1":"P1_5"].sum(axis=1)
 df["non_teachers"] = df.loc[:, "P1_7"]
 df["teachers"] = df.loc[:, "P1_6"]
@@ -32,10 +40,24 @@ five_years = df.query("five_years > 0").reset_index(drop=True)
 five_years.loc[:, "role"] = "five_years"
 phds = df.query("phds > 0").reset_index(drop=True)
 phds.loc[:, "role"] = "phds"
+phds_ochota = phds.query("P3 == 3.0").reset_index(drop=True)
+phds_ochota.loc[:, "role"] = "phds_ochota"
+phds_non_ochota = phds.query("P3 != 3.0").reset_index(drop=True)
+phds_non_ochota.loc[:, "role"] = "phds_non_ochota"
 
 
 ndf = pd.concat(
-    [students, bachelors, masters, five_years, phds, teachers, non_teachers]
+    [
+        students,
+        bachelors,
+        masters,
+        five_years,
+        phds,
+        teachers,
+        non_teachers,
+        phds_ochota,
+        phds_non_ochota,
+    ]
 )
 PERCENT = 100
 
@@ -496,3 +518,5 @@ for _, role in ndf.groupby("role"):
     .fillna(0)
     .to_excel(EXCEL / "P5bb.xlsx", index=False)
 )
+
+# %%
